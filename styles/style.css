@@ -1,0 +1,35 @@
+body {
+    display: flex;
+    background-color: black;
+}
+
+
+
+#navone {
+    display: flex !important;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.footer {
+    display : flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    
+    
+}
+
+.taille {
+    width: 80px;
+    height: auto !important;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+    transition: background-color 0.3s ease;
+    margin: 5px;
+    padding: 5px;
+}
