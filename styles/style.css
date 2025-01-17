@@ -1,22 +1,21 @@
 body {
-    display: flex;
     background-color: black;
 }
 
-
-
-#navone {
-    display: flex !important;
+.navbar navbar-expand-lg bg-dark test {
+    display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
+    background-color: black;
+    color: white;
+    padding: 10px;
 }
 
-.footer {
-    display : flex;
-    flex-direction: row;
-    justify-content: space-around;
 
-    
+.footer {
+
+   flex-direction: row;
+    justify-content: flex-end;
     
 }
 
