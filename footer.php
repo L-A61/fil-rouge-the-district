@@ -1,5 +1,7 @@
 
-
+<button class="position">
+  <a href="contact.php">Contact</a>
+</button>
 
 
 <div class="footer">
