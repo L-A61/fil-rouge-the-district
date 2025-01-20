@@ -9,11 +9,11 @@
     <link rel="stylesheet" href="/styles/style.css">
 </head>
 <body>
-  <header>
-    <div class="container">
-    <div class="logo">
-      <img src="..\assets\logo.png" alt="logo" class="taille">
+  <header> 
     <nav class="navOne">
+   
+      <img src="..\assets\logo.png" alt="logo" class="taille">
+      <div class="navTwo">
 <button class="position">
   <a href="index.php">Accueil</a>
 </button>
@@ -27,34 +27,22 @@
   <a href="connexion.php">Connexion</a> 
 </button>  
 
-
-<input type="search" id="site-search" name="searchBar" placeholder="Rechercher..."/>
-<button>Rechercher</button>
-
-<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Mon Panier</button>
-
+<button class="position1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Mon Panier</button>
 <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
   <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Offcanvas with body scrolling</h5>
+    <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Description de la commande</h5>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
-    <p>Try scrolling the rest of the page to see this option in action.</p>
+    <p>L'addition du menu :</p>
   </div>
 </div>
 
 
-
+</navTwo>
     </nav>
     </div>
   </header>
-
-
-
-
-
-
-
 
 </nav>
 

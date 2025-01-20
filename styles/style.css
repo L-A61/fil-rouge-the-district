@@ -11,7 +11,6 @@ body {
     padding: 10px;
 }
 
-
 .footer {
 
    flex-direction: row;
@@ -19,16 +18,54 @@ body {
     
 }
 
-.taille {
-    width: 80px;
-    height: auto !important;
+.navOne {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-between; /* Espace entre les éléments */
+    align-items: center; /* Centre verticalement */
+    width: 100%; /* Ajuste la largeur à 100% */
+    font-size: 1.2em; /* Ajuste la taille de la police pour une meilleure lisibilité */
+}
+
+.taille {
+    width: 400px;
+    display: flex;
     color: white;
     font-size: 24px;
-    transition: background-color 0.3s ease;
     margin: 5px;
     padding: 5px;
+    margin-left: 0; /* Assure que l'image est tout à gauche */
+}
+
+.navTwo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center; /* Centre horizontalement */
+    gap: 20px; /* Espace entre les éléments */
+    flex-grow: 1; /* Permet à navTwo de prendre l'espace disponible */
+}
+
+.position {
+    background-color: black;
+    border: 2px solid #D2AC47;
+    color: white;
+    font-size: 1.5em; /* Agrandit la taille de la police */
+    padding: 10px 20px; /* Augmente les marges internes */
+}
+
+.position a {
+    color: white; /* Change la couleur de la police à blanche */
+    text-decoration: none; /* Enlève la ligne */
+}
+
+.position a:hover {
+    color: #D2AC47; /* Change la couleur de la police à jaune */
+}
+
+.position1 {
+    background-color: #D2AC47;
+    border: 2px solid wheat;
+    color: white;
+    font-size: 1.5em; /* Agrandit la taille de la police */
+    padding: 10px 20px; /* Augmente les marges internes */
 }
