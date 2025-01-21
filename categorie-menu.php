@@ -33,24 +33,22 @@ $categories = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
 // Suppression d'une catégorie
 if (isset($_GET['delete'])) {
-    $deleteCat = $_GET['delete'];
-    
-    // Requête pour récupérer l'ID de categorie
-    $stmt = $pdo->prepare("SELECT categorieID FROM categorie");
-    $stmt->execute([$deleteCat]);
+    $deleteID = $_GET['delete'];
+
+    $stmt = $pdo->prepare("DELETE FROM categorie WHERE categorie_ID = :id");
+    $stmt->execute(['id' => $deleteID]);
     $category = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($category) {
-        // Requête de suppression
-        $deleteSql = "DELETE FROM categorie";
+        $deleteSql = "DELETE FROM categorie WHERE categorie_ID = :id";
         $stmt = $pdo->prepare($deleteSql);
-        $stmt->execute([$deleteCat]);
+        $stmt->execute(['categorie_ID' => $deleteID]);
     }
 
-    // Redirection après suppression
     header('Location: categorie-menu.php');
     exit;
 }
+
 ?>
 
 <div class="container my-5">
@@ -65,6 +63,9 @@ if (isset($_GET['delete'])) {
         </div>
     </form>
 
+    <!--Bouton Ajout (TODO: if type d'utilisateur admin ou commercial) -->
+    <a href="categorie-select.php" class="btn btn-dark">Ajouter une catégorie</a>
+
     <!-- Liste des catégories -->
     <div class="row">
         <?php if (count($categories) > 0): ?>
@@ -74,6 +75,11 @@ if (isset($_GET['delete'])) {
                         <div class="card-body">
                             <button><a href=""><img src="./assets/img/default.jpeg" class="card-img" alt=""></a></button>
                             <h3 class="card-title"><?= htmlentities($category['categorie_libelle']) ?></h3>
+
+                            <!-- Boutons Modifier et Supprimer (TODO: if type d'utilisateur admin ou commercial) -->
+                            <a href="categorie-select.php?modify=<?= htmlentities($category['categorie_libelle'])?>">Modifier</a>
+                            <a href="categorie-menu.php?delete=<?= htmlentities($category['categorie_libelle'])?>"
+                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette catégorie ?')">Supprimer</a>
                         </div>
                     </div>
                 </div>
