@@ -5,8 +5,6 @@ include './header.php';
 <main>
     <section>
         
-        <h1>Tous nos produits</h1>
-        
         <?php
 // Configuration de la base de données
 $host = '127.0.0.1';
@@ -23,7 +21,7 @@ try {
 }
 
 // Initialisation des variables
-$search = isset($_GET['search']) ? $_GET['search'] : '';
+$search = isset($_GET['searchProd']) ? $_GET['searchProd'] : '';
 
 // Requête SQL pour récupérer les produits
 $sql = "SELECT p.produit_libelle, p.produit_prix, p.produit_description, p.produit_image, c.categorie_libelle FROM produit p 
@@ -39,14 +37,14 @@ $products = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <div class="container my-5">
-    <h1 class="mb-4">Liste des produits</h1>
+    <h1 class="mb-4">Tous nos produits</h1>
 
     <!-- Formulaire de recherche -->
     <form method="get" action="produits.php" class="mb-4">
         <div class="input-group">
-            <input type="text" name="search" class="form-control" placeholder="Rechercher un produit"
+            <input type="text" name="searchProd" class="form-control" placeholder="Rechercher..."
                 value="<?= htmlentities($search) ?>">
-            <button type="submit" class="btn btn-primary">Rechercher</button>
+            <button type="submit" class="btn btn-warning">Rechercher</button>
         </div>
     </form>
 
@@ -60,7 +58,7 @@ $products = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
                             class="card-img-top" alt="<?= htmlentities($product['produit_libelle']) ?>" 
                             style="height: 200px; object-fit: cover;">
                         <div class="card-body">
-                            <h5 class="card-title"><?= htmlentities($product['produit_libelle']) ?></h5>
+                            <h3 class="card-title"><?= htmlentities($product['produit_libelle']) ?></h3>
                             <p class="card-text"><strong>Catégorie :</strong>
                                 <?= htmlentities($product['categorie_libelle']) ?></p>
                             <p class="card-text"><strong>Prix:</strong>
