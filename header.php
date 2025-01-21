@@ -12,7 +12,10 @@
   <header> 
     <nav class="navOne">
    
+    <a href="index.php">
       <img src="..\assets\logo.png" alt="logo" class="taille">
+    </a>
+     
       <div class="navTwo">
 <button class="position">
   <a href="index.php">Accueil</a>
