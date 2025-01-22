@@ -13,9 +13,7 @@ echo "Ceci est la page d'accueil!";
   <div class="carousel-inner">
     <div class="carousel-item active">
 
-      <video autoplay muted onended="this.pause()" class="d-block w-100" alt="..." >
-        <source src="/assets/carroussel1.mov" type="video/mp4">
-      </video>
+    <img src="./assets/img/carroussel1.jpeg" class="d-block w-100" alt="...">
       
       <div class="carousel-caption d-none d-md-block">
         <h5>First slide label</h5>
@@ -23,14 +21,14 @@ echo "Ceci est la page d'accueil!";
       </div>
     </div>
     <div class="carousel-item">
-      <img src="..." class="d-block w-100" alt="...">
+      <img src="./assets/img/carroussel2.jpeg" class="d-block w-100" alt="...">
       <div class="carousel-caption d-none d-md-block">
         <h5>Second slide label</h5>
         <p>Some representative placeholder content for the second slide.</p>
       </div>
     </div>
     <div class="carousel-item">
-      <img src="..." class="d-block w-100" alt="...">
+      <img src="./assets/img/cheese-7952772.jpg" class="d-block w-100" alt="...">
       <div class="carousel-caption d-none d-md-block">
         <h5>Third slide label</h5>
         <p>Some representative placeholder content for the third slide.</p>
