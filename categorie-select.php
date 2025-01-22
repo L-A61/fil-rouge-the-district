@@ -1,19 +1,12 @@
 <?php
 include("header.php");
 
-// Configuration de la base de données
-$host = '127.0.0.1';
-$dbname = 'thedistrict';
-$username = 'root';
-$password = '';
-
-try {
-    // Connexion à la base de données
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Erreur de connexion : " . $e->getMessage());
+/* Redirige à la page categorie-menu si le type_libelle de la session n'est pas admin ou commercial */ 
+if ($_SESSION['type_libelle'] !== "admin" || $_SESSION['type_libelle']!== "commercial") {
+    header("Location: categorie-menu.php");
+    exit;
 }
+
 
 $id = isset($_GET['modify']) ? $_GET['modify'] : '';
 $libelle = $idValue = '';
@@ -45,10 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $pdo->exec($sql);
     }
 
-    header('Location: categorie-menu.php');
+    header('Location:categorie-menu.php');
     exit;
 }
-
 ?>
 
 <div class="container my-5">
