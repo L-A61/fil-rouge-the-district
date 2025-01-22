@@ -12,7 +12,11 @@ echo "Ceci est la page d'accueil!";
   </div>
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <video src="/assets/carroussel1.mov" class="d-block w-100" alt="..." autoplay loop muted controls></video>
+
+      <video autoplay muted onended="this.pause()" class="d-block w-100" alt="..." >
+        <source src="/assets/carroussel1.mov" type="video/mp4">
+      </video>
+      
       <div class="carousel-caption d-none d-md-block">
         <h5>First slide label</h5>
         <p>Some representative placeholder content for the first slide.</p>
