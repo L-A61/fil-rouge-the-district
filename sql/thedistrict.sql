@@ -1,9 +1,11 @@
+DROP DATABASE IF EXISTS thedistrict;
+
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mer. 22 jan. 2025 à 08:18
+-- Généré le : mer. 22 jan. 2025 à 09:06
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -29,6 +31,7 @@ USE `thedistrict`;
 -- Structure de la table `categorie`
 --
 
+DROP TABLE IF EXISTS `categorie`;
 CREATE TABLE IF NOT EXISTS `categorie` (
   `categorie_ID` int(11) NOT NULL AUTO_INCREMENT,
   `categorie_libelle` varchar(50) NOT NULL,
@@ -54,6 +57,7 @@ INSERT INTO `categorie` (`categorie_ID`, `categorie_libelle`, `categorie_image`)
 -- Structure de la table `client`
 --
 
+DROP TABLE IF EXISTS `client`;
 CREATE TABLE IF NOT EXISTS `client` (
   `client_ID` int(11) NOT NULL AUTO_INCREMENT,
   `client_nom` varchar(50) NOT NULL,
@@ -69,23 +73,13 @@ CREATE TABLE IF NOT EXISTS `client` (
   UNIQUE KEY `utilisateur_ID` (`utilisateur_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Déchargement des données de la table `client`
---
-
-INSERT INTO `client` (`client_ID`, `client_nom`, `client_prenom`, `client_tel`, `client_cp`, `client_ville`, `client_adresse1`, `client_adresse2`, `client_adresse3`, `utilisateur_ID`) VALUES
-(1, 'Pierre', 'Dubois', '+33612345678', '75001', 'Paris', '10 Rue de Rivoli', 'Apt 3B', NULL, 1),
-(2, 'Marie', 'Lefevre', '+33698765432', '69002', 'Lyon', '25 Rue Victor Hugo', 'Floor 2', NULL, 2),
-(3, 'Jean', 'Martin', '+33623456789', '13001', 'Marseille', '5 Boulevard Longchamp', 'Suite 101', NULL, 3),
-(4, 'Sophie', 'Bernard', '+33687654321', '06000', 'Nice', '15 Avenue Jean Médecin', 'Building A', NULL, 4),
-(5, 'Luc', 'Moreau', '+33654321098', '44000', 'Nantes', '20 Rue Crébillon', 'Apt 4C', NULL, 5);
-
 -- --------------------------------------------------------
 
 --
 -- Structure de la table `commande`
 --
 
+DROP TABLE IF EXISTS `commande`;
 CREATE TABLE IF NOT EXISTS `commande` (
   `commande_ID` int(11) NOT NULL AUTO_INCREMENT,
   `commande_date` datetime NOT NULL,
@@ -95,23 +89,13 @@ CREATE TABLE IF NOT EXISTS `commande` (
   KEY `client_ID` (`client_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Déchargement des données de la table `commande`
---
-
-INSERT INTO `commande` (`commande_ID`, `commande_date`, `commande_libelle`, `client_ID`) VALUES
-(1, '2024-12-01 14:30:00', 'En cours de validation', 1),
-(2, '2024-12-05 09:15:00', 'En cours de préparation', 2),
-(3, '2024-12-10 18:45:00', 'En cours de livraison', 3),
-(4, '2024-12-15 11:00:00', 'Livré', 4),
-(5, '2024-12-20 16:20:00', 'En cours de préparation', 5);
-
 -- --------------------------------------------------------
 
 --
 -- Structure de la table `peut_contenir`
 --
 
+DROP TABLE IF EXISTS `peut_contenir`;
 CREATE TABLE IF NOT EXISTS `peut_contenir` (
   `produit_ID` int(11) NOT NULL,
   `commande_ID` int(11) NOT NULL,
@@ -120,23 +104,13 @@ CREATE TABLE IF NOT EXISTS `peut_contenir` (
   KEY `commande_ID` (`commande_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Déchargement des données de la table `peut_contenir`
---
-
-INSERT INTO `peut_contenir` (`produit_ID`, `commande_ID`, `quantite`) VALUES
-(1, 1, 2),
-(2, 2, 5),
-(3, 3, 8),
-(4, 4, 7),
-(5, 5, 10);
-
 -- --------------------------------------------------------
 
 --
 -- Structure de la table `produit`
 --
 
+DROP TABLE IF EXISTS `produit`;
 CREATE TABLE IF NOT EXISTS `produit` (
   `produit_ID` int(11) NOT NULL AUTO_INCREMENT,
   `produit_libelle` varchar(50) NOT NULL,
@@ -199,6 +173,7 @@ INSERT INTO `produit` (`produit_ID`, `produit_libelle`, `produit_prix`, `produit
 -- Structure de la table `type`
 --
 
+DROP TABLE IF EXISTS `type`;
 CREATE TABLE IF NOT EXISTS `type` (
   `type_ID` int(11) NOT NULL AUTO_INCREMENT,
   `type_libelle` varchar(50) NOT NULL,
@@ -220,6 +195,7 @@ INSERT INTO `type` (`type_ID`, `type_libelle`) VALUES
 -- Structure de la table `utilisateur`
 --
 
+DROP TABLE IF EXISTS `utilisateur`;
 CREATE TABLE IF NOT EXISTS `utilisateur` (
   `utilisateur_ID` int(11) NOT NULL AUTO_INCREMENT,
   `utilisateur_pseudo` varchar(50) NOT NULL,
@@ -229,20 +205,6 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   PRIMARY KEY (`utilisateur_ID`),
   KEY `type_ID` (`type_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Déchargement des données de la table `utilisateur`
---
-
-INSERT INTO `utilisateur` (`utilisateur_ID`, `utilisateur_pseudo`, `utlisateur_email`, `utilisateur_password`, `type_ID`) VALUES
-(1, 'StarGazer99', 'stargazer99@example.com', 'abc', 1),
-(2, 'BookWorm42', 'bookworm42@example.com', 'def', 2),
-(3, 'TechGuru88', 'techguru88@example.com', 'ghi', 3),
-(4, 'ArtLover21', 'artlover21@example.com', 'Paint&Create21', 2),
-(5, 'MusicMaestro77', 'musicmaestro77@example.com', 'Melody!Magic77', 2),
-(6, 'Ababa', '', '$2y$10$eu7EDZRSyLVJfxsze7JhPudFtGjyQscNQrUeuE1kpf9', 1),
-(7, 'Ababacar samb', 'abasamb@icloud.com', '$2y$10$TmwBQdpYKcoSACQWN2BjTO1F22RPvYFjw0PQpUrTAPL', 1),
-(8, 'lylia la star', 'lylia.pro.lastar@diva.com', '$2y$10$3HkMvHZ06Ys1uR8JLoG59eWNtZioVzN4y7gDaKCeRQa', 2);
 
 --
 -- Contraintes pour les tables déchargées
@@ -259,25 +221,6 @@ ALTER TABLE `client`
 --
 ALTER TABLE `commande`
   ADD CONSTRAINT `commande_ibfk_1` FOREIGN KEY (`client_ID`) REFERENCES `client` (`client_ID`);
-
---
--- Contraintes pour la table `peut_contenir`
---
-ALTER TABLE `peut_contenir`
-  ADD CONSTRAINT `peut_contenir_ibfk_1` FOREIGN KEY (`produit_ID`) REFERENCES `produit` (`produit_ID`),
-  ADD CONSTRAINT `peut_contenir_ibfk_2` FOREIGN KEY (`commande_ID`) REFERENCES `commande` (`commande_ID`);
-
---
--- Contraintes pour la table `produit`
---
-ALTER TABLE `produit`
-  ADD CONSTRAINT `produit_ibfk_1` FOREIGN KEY (`categorie_ID`) REFERENCES `categorie` (`categorie_ID`);
-
---
--- Contraintes pour la table `utilisateur`
---
-ALTER TABLE `utilisateur`
-  ADD CONSTRAINT `utilisateur_ibfk_1` FOREIGN KEY (`type_ID`) REFERENCES `type` (`type_ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
