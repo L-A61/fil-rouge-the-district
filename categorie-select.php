@@ -15,18 +15,18 @@ try {
     die("Erreur de connexion : " . $e->getMessage());
 }
 
-$exists = isset($_GET['categorie_ID']) ? $_GET['categorie_ID'] : '';
-$libelle = $existValue = '';
+$id = isset($_GET['modify']) ? $_GET['modify'] : '';
+$libelle = $idValue = '';
 $idCategorie = null;
 
-if ($exists !== '') {
-    $sql = "SELECT categorie_ID, categorie_libelle from categorie where categorie_ID = '$exists'";
+if ($id !== '') {
+    $sql = "SELECT categorie_ID, categorie_libelle from categorie where categorie_ID = '$id'";
     $result = $pdo->query($sql);
     $category = $result->fetch(PDO::FETCH_ASSOC);
 
     if ($category) {
         $libelle = $category['categorie_libelle'];
-        $existValue = $category['categorie_ID'];
+        $idValue = $category['categorie_ID'];
         $idCategorie = $category['categorie_ID'];
     } else {
         echo "Catégorie introuvable.";
@@ -52,14 +52,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 
 <div class="container my-5">
-    <h1 class="mb-4"><?= $exists ? "Modification" : "Création" ?> d'une catégorie</h1>
+    <h1 class="mb-4"><?= $id ? "Modification" : "Création" ?> d'une catégorie</h1>
 
     <form method="post">
         <div class="mb-3">
             <label for="libelle" class="form-label">Nom de la catégorie: </label>
             <input type="text" class="form-control" id="libelle" name="libelle" value="<?= htmlentities($libelle) ?>" required>
         </div>
-        <button type="submit" class="btn btn-warning"><?= $exists ? "Mettre à jour" : "Créer" ?></button>
+        <button type="submit" class="btn btn-warning"><?= $id ? "Mettre à jour" : "Créer" ?></button>
         <a href="categorie-menu.php" class="btn btn-dark">Retour</a>
     </form>
 </div>

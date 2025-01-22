@@ -35,14 +35,14 @@ $categories = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 if (isset($_GET['delete'])) {
     $deleteID = $_GET['delete'];
 
-    $stmt = $pdo->prepare("DELETE FROM categorie WHERE categorie_ID = :id");
+    $stmt = $pdo->prepare("SELECT categorie_ID FROM categorie WHERE categorie_ID = :id");
     $stmt->execute(['id' => $deleteID]);
     $category = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($category) {
         $deleteSql = "DELETE FROM categorie WHERE categorie_ID = :id";
         $stmt = $pdo->prepare($deleteSql);
-        $stmt->execute(['categorie_ID' => $deleteID]);
+        $stmt->execute(['id' => $deleteID]);
     }
 
     header('Location: categorie-menu.php');
@@ -77,8 +77,8 @@ if (isset($_GET['delete'])) {
                             <h3 class="card-title"><?= htmlentities($category['categorie_libelle']) ?></h3>
 
                             <!-- Boutons Modifier et Supprimer (TODO: if type d'utilisateur admin ou commercial) -->
-                            <a href="categorie-select.php?modify=<?= htmlentities($category['categorie_libelle'])?>">Modifier</a>
-                            <a href="categorie-menu.php?delete=<?= htmlentities($category['categorie_libelle'])?>"
+                            <a href="categorie-select.php?modify=<?= htmlentities($category['categorie_ID'])?>">Modifier</a>
+                            <a href="categorie-menu.php?delete=<?= htmlentities($category['categorie_ID'])?>"
                             onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette catégorie ?')">Supprimer</a>
                         </div>
                     </div>
