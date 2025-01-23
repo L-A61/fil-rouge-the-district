@@ -6,19 +6,6 @@ include './header.php';
     <section>
         
         <?php
-// Configuration de la base de données
-$host = '127.0.0.1';
-$dbname = 'thedistrict';
-$username = 'root';
-$password = '';
-
-try {
-    // Connexion à la base de données
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Erreur de connexion : " . $e->getMessage());
-}
 
 // Initialisation des variables
 $category = isset($_GET['category'])? $_GET['category'] : '';
@@ -34,6 +21,7 @@ if (!empty($search)) {
     $sql .= " WHERE produit_libelle LIKE '%$search%'";
 }
 
+// Selectionne des produits par catégorie si spécifiée
 if ($category) {
     $sql .= " WHERE c.categorie_libelle = '$category'";
 }
@@ -44,7 +32,7 @@ $products = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
 <div class="container my-5">
     <?php if ($category):?>
-        <h1 class="mb-4">Tous nos <?php echo $category?></h1>
+        <h1 class="mb-4">Tous nos <?php echo htmlentities($category)?></h1>
     <?php else:?>
         <h1 class="mb-4">Tous nos produits</h1>
     <?php endif;?>
@@ -90,5 +78,5 @@ $products = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 </main>
 
 <?php
-include './footer.php';
+include 'footer.php';
 ?>

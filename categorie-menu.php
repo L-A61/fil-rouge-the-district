@@ -56,11 +56,10 @@ if (isset($_GET['delete'])) {
         </div>
     </form>
 
-
+    <!--Bouton Ajout (TODO: if type d'utilisateur admin ou commercial) -->
+    <a href="categorie-select.php" class="btn btn-dark">Ajouter une catégorie</a>
     <div class="row">
         <?php if (count($categories) > 0): ?>
-            <!--Bouton Ajout (TODO: if type d'utilisateur admin ou commercial) -->
-            <a href="categorie-select.php" class="btn btn-dark">Ajouter une catégorie</a>
             <?php foreach ($categories as $category): ?>
                 <div class="col-md-4 mb-4">
                     <div class="card">
