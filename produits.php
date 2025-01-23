@@ -21,6 +21,8 @@ try {
 }
 
 // Initialisation des variables
+$category = isset($_GET['category'])? $_GET['category'] : '';
+
 $search = isset($_GET['searchProd']) ? $_GET['searchProd'] : '';
 
 // Requête SQL pour récupérer les produits
@@ -32,12 +34,20 @@ if (!empty($search)) {
     $sql .= " WHERE produit_libelle LIKE '%$search%'";
 }
 
+if ($category) {
+    $sql .= " WHERE c.categorie_libelle = '$category'";
+}
+
 // Exécution de la requête
 $products = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <div class="container my-5">
-    <h1 class="mb-4">Tous nos produits</h1>
+    <?php if ($category):?>
+        <h1 class="mb-4">Tous nos <?php echo $category?></h1>
+    <?php else:?>
+        <h1 class="mb-4">Tous nos produits</h1>
+    <?php endif;?>
 
     <!-- Formulaire de recherche -->
     <form method="get" action="produits.php" class="mb-4">

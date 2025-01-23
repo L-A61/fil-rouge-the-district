@@ -1,13 +1,6 @@
 <?php
 include("header.php");
 
-/* Redirige à la page categorie-menu si le type_libelle de la session n'est pas admin ou commercial */ 
-if ($_SESSION['type_libelle'] !== "admin" || $_SESSION['type_libelle']!== "commercial") {
-    header("Location: categorie-menu.php");
-    exit;
-}
-
-
 $id = isset($_GET['modify']) ? $_GET['modify'] : '';
 $libelle = $idValue = '';
 $idCategorie = null;
