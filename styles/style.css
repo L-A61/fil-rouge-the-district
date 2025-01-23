@@ -13,9 +13,14 @@ header {
    padding: 0 20px; /* Ajout de marge intérieure horizontale */
    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optionnel : ajout d'une ombre */
 }
+
+.navbar-expand-lg {
+    z-index: -1;
+}
 .carouselExampleCaptions{
     height: 30% !important;
 }
+
 
 .footer {
     display: flex;

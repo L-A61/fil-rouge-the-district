@@ -15,24 +15,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $login = $_POST['username'];
     $password = $_POST['password'];
 
+    var_dump($login, $password);
+
 
     try {
         $pdo = new PDO('mysql:host=localhost;dbname=thedistrict', 'root', '');
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        echo "<br>Connexion réussie";
     } catch (PDOException $e) {
         die("Erreur de connexion : " . $e->getMessage());
     }
 
 
-    $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE utlisateur_email = :login");;
+    $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE utilisateur_email = :login");;
     $stmt->bindValue(':login', $login);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    var_dump($user);
 
 
     if ($user && password_verify($password, $user['utilisateur_password'])) {
-        echo "<style color='red'>Connexion réussie!</style>";
-        var_dump($user);
+        var_dump($user, $password);
         // Connexion réussie, stocker les informations de l'utilisateur dans la variable session
         $_SESSION['utilisateur_ID'] = $user['utilisateur_ID'];
 
@@ -46,8 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['type_libelle'] = $type['type_libelle'];
         echo "<br>Type d'utilisateur : ". $_SESSION['type_libelle'];
         $_SESSION['logged_in'] = true;
-
-
         header('Location: index.php'); // Redirection vers la page d'acceuil
         exit();
     } else {
@@ -68,11 +69,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
         <form method="post" class="form-connexion">
             <div class="textbox">
-                <input type="text" name="username" placeholder="Email" class="input-connexion" autocomplete="on">
+                <input type="text" name="username" placeholder="Email" class="input-connexion" autocomplete="on" required>
             </div>
             <br>
             <div class="textbox">
-                <input type="password" name="password" placeholder="Mot de passe" class="input-connexion">
+                <input type="password" name="password" placeholder="Mot de passe" class="input-connexion" required>
             </div>
             <p class="p-forget">Mot de passe oublié ? <a href="recup_mdp.php">Cliquez ici</a></p>
             <br>

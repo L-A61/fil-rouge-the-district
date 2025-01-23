@@ -65,8 +65,8 @@ session_start();
  
   // Vérifiez si l'utilisateur est connecté
   $username = null;
-  if (isset($_SESSION['user_id'])) {
-    $userId = $_SESSION['user_id'];
+  if (isset($_SESSION['utilisateur_ID'])) {
+    $userId = $_SESSION['utilisateur_ID'];
 
     // Récupération des informations de l'utilisateur
     $sqlUser = "SELECT Login FROM utlisateur WHERE utilisateur_pseudo=:utilisateur_pseudo";
@@ -75,7 +75,7 @@ session_start();
     $user = $stmtUser->fetch(PDO::FETCH_ASSOC);
 
     if ($user) {
-      $username = $user['Login'];
+      $username = $user['utilisateur_pseudo'];
     }
   }
 
@@ -98,7 +98,6 @@ session_start();
         break;
       default:
         echo 'defaut'; // Couleur par défaut
-        echo '<!-- Cas Par défaut -->';
         break;
     }
   } else {
