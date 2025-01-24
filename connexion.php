@@ -17,18 +17,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $login = $_POST['username'];
     $password = $_POST['password'];
 
-    var_dump($login, $password);
+    // var_dump($login, $password);
 
 
     $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE utilisateur_email = :login");;
     $stmt->bindValue(':login', $login);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    var_dump($user);
+    // var_dump($user);
 
 
     if ($user && password_verify($password, $user['utilisateur_password'])) {
-        var_dump($user, $password);
+        // var_dump($user, $password);
         // Connexion réussie, stocker les informations de l'utilisateur dans la variable session
         $_SESSION['utilisateur_ID'] = $user['utilisateur_ID'];
 
