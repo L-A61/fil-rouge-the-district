@@ -1,20 +1,6 @@
 <?php include 'header.php' ?>
 <?php
 
-// Configuration de la base de données
-$host = '127.0.0.1';
-$dbname = 'thedistrict';
-$username = 'root';
-$password = '';
-
-try {
-    // Connexion à la base de données
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Erreur de connexion : " . $e->getMessage());
-}
-
 // Vérification si l'utilisateur est déjà connecté
 if (isset($_SESSION['user_id'])) {
 	header('Location: index.php'); // Redirection vers la page d'accueil si l'utilisateur est déjà connecté

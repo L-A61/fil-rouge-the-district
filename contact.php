@@ -9,29 +9,29 @@ echo "Ceci est la page contact!";
         <h1>Nous Contacter</h1>
 
         <article>
-            <label for="nom">NOM</label>
+            <label for="nom">Nom:</label>
             <input id="nom" type="text">
         </article>
 
         <article>
-            <label for="prenom">PRÉNOM</label>
+            <label for="prenom">Prénom:</label>
             <input id="prenom" type="text">
         </article>
 
         <article>
-            <label for="email">EMAIL</label>
+            <label for="email">Email:</label>
             <input id="email" type="text">
         </article>
 
         <article>
-            <label for="tel">TÉLÉPHONE</label>
+            <label for="tel">Téléphone:</label>
             <input id="tel" type="text">
         </article>
 
     </section>
 
     <section>
-        <label for="demande">VOTRE DEMANDE</label>
+        <label for="demande">Votre demande:</label>
         <input id="demande" type="text">
     </section>
 

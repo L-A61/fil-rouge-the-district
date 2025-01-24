@@ -4,41 +4,38 @@ include './header.php';
 
 <main>
     <section>
-        <nav>
+        
+        <?php
 
-            <?php
-            // Configuration de la base de données
-            $host = '127.0.0.1';
-            $dbname = 'thedistrict';
-            $username = 'root';
-            $password = '';
+// Initialisation des variables
+$category = isset($_GET['category'])? $_GET['category'] : '';
 
-            try {
-                // Connexion à la base de données
-                $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            } catch (PDOException $e) {
-                die("Erreur de connexion : " . $e->getMessage());
-            }
-
-            // Initialisation des variables
-            $search = isset($_GET['search']) ? $_GET['search'] : '';
+$search = isset($_GET['searchProd']) ? $_GET['searchProd'] : '';
 
             // Requête SQL pour récupérer les produits
             $sql = "SELECT p.produit_ID, p.produit_libelle, p.produit_prix, p.produit_description, p.produit_image, c.categorie_libelle FROM produit p 
                 JOIN categorie c ON p.categorie_ID = c.categorie_ID";
 
-            // Ajout du filtre de recherche si applicable
-            if (!empty($search)) {
-                $sql .= " WHERE p.produit_libelle LIKE '%$search%' OR p.produit_description LIKE '%$search%' OR c.categorie_libelle LIKE '%$search%'";
-            }
+// Ajout du filtre de recherche si applicable
+if (!empty($search)) {
+    $sql .= " WHERE produit_libelle LIKE '%$search%'";
+}
+
+// Selectionne des produits par catégorie si spécifiée
+if ($category) {
+    $sql .= " WHERE c.categorie_libelle = '$category'";
+}
 
             // Exécution de la requête
             $products = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
             ?>
 
-            <div class="container my-5">
-                <h1 class="mb-4">Tous nos produits</h1>
+<div class="container my-5">
+    <?php if ($category):?>
+        <h1 class="mb-4">Tous nos <?php echo htmlentities($category)?></h1>
+    <?php else:?>
+        <h1 class="mb-4">Tous nos produits</h1>
+    <?php endif;?>
 
                 <!-- Formulaire de recherche -->
                 <form method="get" action="produits.php" class="mb-4">
@@ -91,5 +88,5 @@ include './header.php';
 </main>
 
 <?php
-include './footer.php';
+include 'footer.php';
 ?>

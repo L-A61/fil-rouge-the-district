@@ -1,7 +1,8 @@
-<?php    
+<?php
 include './header.php';
 
 
+<?php
 // Configuration de la base de données
 $host = '127.0.0.1';
 $dbname = 'thedistrict';
@@ -17,21 +18,23 @@ try {
 }
 
 // Initialisation des variables
-$search = isset($_GET['searchCat']) ? $_GET['searchCat'] : '';
+$searchCat = isset($_GET['searchCat']) ? $_GET['searchCat'] : '';
+$searchProd = isset($_GET['searchProd']) ? $_GET['searchProd'] : '';
 
 // Requête SQL pour récupérer les catégories
-$sql = "SELECT categorie_ID, categorie_libelle FROM categorie";
+$sqlCat = "SELECT categorie_ID, categorie_libelle FROM categorie";
+
+// Requête SQL pour récupérer les produits
+$sqlProd = "SELECT * FROM produit p 
+join categorie c ON p.categorie_ID = c.categorie_ID";
 
 // Ajout du filtre de recherche si applicable
-if (!empty($search)) {
-    $sql .= " WHERE categorie_libelle LIKE '%$search%'";
+if (!empty($searchCat)) {
+    $sqlCat .= " WHERE categorie_libelle LIKE '%$searchCat%'";
 }
 
-// Exécution de la requête
-$categories = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-
-
-
+// Exécution de la requête Catégories
+$categories = $pdo->query($sqlCat)->fetchAll(PDO::FETCH_ASSOC);
 
 // Suppression d'une catégorie
 if (isset($_GET['delete'])) {
@@ -65,13 +68,14 @@ if (isset($_GET['delete'])) {
 
 
 <div class="container my-5">
+    <!-- Liste des catégories -->
     <h1 class="mb-4">Tous nos catégories</h1>
 
-    <!-- Formulaire de recherche -->
+    <!-- Formulaire de recherche catégorie -->
     <form method="get" action="categorie-menu.php" class="mb-4">
         <div class="input-group">
             <input type="text" name="searchCat" class="form-control" placeholder="Rechercher..."
-                   value="<?= htmlentities($search) ?>">
+                value="<?= htmlentities($searchCat) ?>">
             <button type="submit" class="btn btn-warning">Rechercher</button>
         </div>
     </form>
@@ -91,9 +95,9 @@ if (isset($_GET['delete'])) {
                 <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-body">
-                            <button><a href=""><img src="./assets/img/default.jpeg" class="card-img" alt=""></a></button>
+                            <img src="./assets/img/default.jpeg" class="card-img" alt="">
                             <h3 class="card-title"><?= htmlentities($category['categorie_libelle']) ?></h3>
-
+                            <a class="btn btn-info" href="produits.php?category=<?= htmlentities($category['categorie_libelle']) ?>">Afficher Les Produits</a>
                             <!-- Boutons Modifier et Supprimer (TODO: if type d'utilisateur admin ou commercial) -->
                              <?php if($isCommercialOrAdmin):?>
                             <a class="btn btn-success" href="categorie-select.php?modify=<?= htmlentities($category['categorie_ID'])?>">Modifier</a>
@@ -109,9 +113,10 @@ if (isset($_GET['delete'])) {
                 Aucune catégorie trouvée.
             </div>
         <?php endif; ?>
+
     </div>
 </div>
 
 <?php
-include './footer.php';
+include 'footer.php';
 ?>

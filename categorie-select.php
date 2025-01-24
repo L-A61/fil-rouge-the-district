@@ -1,29 +1,18 @@
 <?php
 include("header.php");
 
-// Configuration de la base de données
-$host = '127.0.0.1';
-$dbname = 'thedistrict';
-$username = 'root';
-$password = '';
-
-try {
-    // Connexion à la base de données
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Erreur de connexion : " . $e->getMessage());
-}
-
+// Déclaration des variables
 $id = isset($_GET['modify']) ? $_GET['modify'] : '';
 $libelle = $idValue = '';
 $idCategorie = null;
 
+// Si l'id est fourni, récupère les informations de la catégorie
 if ($id !== '') {
     $sql = "SELECT categorie_ID, categorie_libelle from categorie where categorie_ID = '$id'";
     $result = $pdo->query($sql);
     $category = $result->fetch(PDO::FETCH_ASSOC);
 
+    // Vérifie si la catégorie existe et récupère les informations si elle existe
     if ($category) {
         $libelle = $category['categorie_libelle'];
         $idValue = $category['categorie_ID'];
@@ -34,9 +23,11 @@ if ($id !== '') {
     }
 }
 
+// Traitement du formulaire de modification ou création de la catégorie
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $libelle = $_POST['libelle'];
 
+    // Si l'id de la catégorie est fourni, met à jour la catégorie, sinon créée une nouvelle catégorie
     if ($idCategorie !== null) {
         $sql = "UPDATE categorie SET categorie_libelle = '$libelle' WHERE categorie_ID = '$idCategorie'";
         $pdo->exec($sql);
@@ -45,12 +36,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $pdo->exec($sql);
     }
 
-    header('Location: categorie-menu.php');
+    // Redirection vers la page des catégories après modification ou création.
+    header('Location:categorie-menu.php');
     exit;
 }
-
 ?>
 
+<!-- Contenu HTML du formulaire -->
 <div class="container my-5">
     <h1 class="mb-4"><?= $id ? "Modification" : "Création" ?> d'une catégorie</h1>
 

@@ -45,6 +45,6 @@ echo "Ceci est la page d'accueil!";
   </button>
 </div>
 <?php
-include './footer.php';
+include 'footer.php';
 ?>
 
