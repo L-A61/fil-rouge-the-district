@@ -1,20 +1,6 @@
 <?php
 include("header.php");
 
-// Configuration de la base de données
-$host = '127.0.0.1';
-$dbname = 'thedistrict';
-$username = 'root';
-$password = '';
-
-try {
-    // Connexion à la base de données
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Erreur de connexion : " . $e->getMessage());
-}
-
 $id = isset($_GET['modify']) ? $_GET['modify'] : '';
 $libelle = $idValue = '';
 $idProduit = null;
@@ -35,7 +21,7 @@ if ($id !== '') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $libelle = isset($_POST['libelle']) ? $_POST['libelle'] : '';
+    $libelle = $_POST['libelle'];
 
     if ($idProduit !== null) {
         $sql = "UPDATE produit SET produit_libelle = '$libelle' WHERE produit_ID = '$idProduit'";
@@ -45,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $pdo->exec($sql);
     }
 
-    header('Location: produit-menu.php');
+    header('Location: produits.php');
     exit;
 }
 ?>
@@ -59,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="text" class="form-control" id="libelle" name="libelle" value="<?= htmlentities($libelle) ?>" required>
         </div>
         <button type="submit" class="btn btn-warning"><?= $id ? "Mettre à jour" : "Créer" ?></button>
-        <a href="produit-menu.php" class="btn btn-dark">Retour</a>
+        <a href="produits.php" class="btn btn-dark">Retour</a>
     </form>
 </div>
 
