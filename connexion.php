@@ -1,36 +1,34 @@
 <?php
 include './header.php';
 echo "Ceci est la page de connexion!";
-?>
-<?php
+
 // Véfifier si l'utilisateur est connecté
 if (isset($_SESSION['utilisateur_ID'])) {
-    header('Location: index.php'); // Redirection vers la page d'acceuil si l'utilisateur est déjà connecté
-    exit;
+    var_dump($_SESSION['utilisateur_ID']); // Debug: Afficher l'ID de l'utilisateur
+    exit('Utilisateur déjà connecté, redirection vers index.php'); // Debug: Message avant redirection
+    header('Location: index.php'); // Redirection vers la page d'accueil si l'utilisateur est déjà connecté
+    exit();
 }
 
-// traitement de la soumission du formulaire de connexion
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+// Traitement de la soumission du formulaire de connexion
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Réception des données du formulaire en méthodes POST
     $login = $_POST['username'];
     $password = $_POST['password'];
 
-
-    try {
-        $pdo = new PDO('mysql:host=localhost;dbname=thedistrict', 'root', '');
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    } catch (PDOException $e) {
-        die("Erreur de connexion : " . $e->getMessage());
-    }
+    var_dump($login, $password);
 
 
-    $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE utlisateur_email = :login");
+    $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE utilisateur_email = :login");;
     $stmt->bindValue(':login', $login);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    var_dump($user);
 
 
     if ($user && password_verify($password, $user['utilisateur_password'])) {
+        var_dump($user, $password);
         // Connexion réussie, stocker les informations de l'utilisateur dans la variable session
         $_SESSION['utilisateur_ID'] = $user['utilisateur_ID'];
 
@@ -39,14 +37,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->bindValue(':type_ID', $user['type_ID']);
         $stmt->execute();
         $type = $stmt->fetch(PDO::FETCH_ASSOC);
-        $_SESSION['type_ID'] = $type['type_libelle'];
+
+         // Stocker les informations de type dans la session
+        $_SESSION['type_libelle'] = $type['type_libelle'];
+        echo "<br>Type d'utilisateur : ". $_SESSION['type_libelle'];
         $_SESSION['logged_in'] = true;
         header('Location: index.php'); // Redirection vers la page d'acceuil
         exit();
     } else {
         //Identifiants incorrects, affichage d'un message d'erreur
         $error_message = "Email ou mot de passe incorrect";
-    }
+    } 
 }
 ?>
 
@@ -59,13 +60,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <?= $error_message ?>
             </div>
         <?php endif; ?>
-        <form action="" method="post" class="form-connexion">
+        <form method="POST" class="form-connexion">
             <div class="textbox">
-                <input type="text" name="username" placeholder="Email" class="input-connexion" autocomplete="on">
+                <input type="text" name="username" placeholder="Email" class="input-connexion" autocomplete="on" required>
             </div>
             <br>
             <div class="textbox">
-                <input type="password" name="password" placeholder="Mot de passe" class="input-connexion">
+                <input type="password" name="password" placeholder="Mot de passe" class="input-connexion" required>
             </div>
             <p class="p-forget">Mot de passe oublié ? <a href="recup_mdp.php">Cliquez ici</a></p>
             <br>
@@ -74,6 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <p class="p-forget">Vous n'avez pas de compte ? <a href="inscription.php">Inscrivez-vous</a></p>
 
     </div>
+    <div class="span"></div>
     <span style="--i:0"></span>
     <span style="--i:1"></span>
     <span style="--i:2"></span>
@@ -125,6 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <span style="--i:48"></span>
     <span style="--i:49"></span>
 
+</div>
 </div>
 
 

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +14,9 @@
 <body>
   <header>
     <nav class="navOne">
+      <a href="index.php">
       <img src="../assets/logo.png" alt="logo" class="taille">
+      </a>
       <div class="navTwo">
         <button class="position">
           <a href="index.php">Accueil</a>
@@ -24,9 +27,18 @@
         <button class="position">
           <a href="produits.php">Produits</a>
         </button>
-        <button class="position">
-          <a href="connexion.php">Connexion</a>
-        </button>
+
+       <!-- Bouton Connexion/Déconnexion -->
+<?php if (isset($_SESSION['utilisateur_ID'])): ?>
+    <button class="position">
+        <a href="logout.php">Déconnexion</a>
+    </button>
+<?php else: ?>
+    <button class="position">
+        <a href="connexion.php">Connexion</a>
+    </button>
+<?php endif; ?>
+
         <button class="position1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Mon Panier</button>
         <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
           <div class="offcanvas-header">
@@ -41,43 +53,57 @@
     </nav>
   </header>
 
-  <?php
+  <?php 
+ session_start();
+
+
+ // Connexion à la base de données
+try {
+  $pdo = new PDO('mysql:host=localhost;dbname=thedistrict', 'root', '');
+  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+  die("Erreur de connexion : " . $e->getMessage());
+}
+ 
   // Vérifiez si l'utilisateur est connecté
   $username = null;
-  if (isset($_SESSION['user_id'])) {
-    $userId = $_SESSION['user_id'];
+  if (isset($_SESSION['utilisateur_ID'])) {
+    $userId = $_SESSION['utilisateur_ID'];
 
     // Récupération des informations de l'utilisateur
-    $sqlUser = "SELECT Login FROM utlisateur WHERE utilisateur_pseudo=:utilisateur_pseudo";
+    $sqlUser = "SELECT * FROM utilisateur WHERE utilisateur_ID=:utilisateur_ID";
     $stmtUser = $pdo->prepare($sqlUser);
-    $stmtUser->execute(['userId' => $userId]);
+    $stmtUser->execute(['utilisateur_ID' => $userId]);
     $user = $stmtUser->fetch(PDO::FETCH_ASSOC);
 
     if ($user) {
-      $username = $user['Login'];
+      $username = $user['utilisateur_pseudo'];
     }
   }
 
   // Vérifier si l'utilisateur est commercial ou admin
-  $isCommercialOrAdmin = isset($_SESSION['type_libelle']) && in_array($_SESSION['type_libelle'], ['Commercial', 'Admin']);
+  $isCommercialOrAdmin = isset($_SESSION['type_libelle']) && in_array($_SESSION['type_libelle'], ['commercial', 'admin']);
   ?>
-  <nav class="navbar navbar-expand-lg 
+  <nav class="navbar navbar-expand-lg
   <?php
   // Appliquer des classes spécifiques selon le type d'utilisateur
   if (isset($_SESSION['type_libelle'])) {
-    switch ($_SESSION['type_libelle']) {
-      case 'Commercial':
-        echo 'bg-success'; // Vert pour Commercial 
+    switch (strtolower($_SESSION['type_libelle'])) {
+      case 'commercial':
+        echo 'commercial'; // Grey pour Commercial 
+        echo '<!-- Cas Commercial -->';
         break;
-      case 'Admin':
-        echo 'bg-danger'; // Rouge pour Admin
+      case 'admin':
+        echo 'admin'; // Pink pour Admin
+        echo '<!-- Cas Admin -->';
+        
         break;
       default:
-        echo 'bg-body-tertiary'; // Couleur par défaut
+        echo 'defaut'; // Couleur par défaut
         break;
     }
   } else {
-    echo 'bg-body-tertiary'; // Couleur par défaut si non connecté
+    echo 'defaut'; // Couleur par défaut si non connecté
   }
   ?>
   ">
@@ -85,6 +111,4 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-</body>
 
-</html>

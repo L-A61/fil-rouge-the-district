@@ -13,26 +13,24 @@ echo "Ceci est la page d'accueil!";
   <div class="carousel-inner">
     <div class="carousel-item active">
 
-      <video autoplay muted onended="this.pause()" class="d-block w-100" alt="..." >
-        <source src="/assets/carroussel1.mov" type="video/mp4">
-      </video>
+    <img src="./assets/img/carroussel1.jpeg" class="d-block w-100" alt="..."style="margin: 5% 4% 5% 4%; height : 800px;">
       
       <div class="carousel-caption d-none d-md-block">
-        <h5>First slide label</h5>
+        <h5>Le Goût de l'exellence</h5>
         <p>Some representative placeholder content for the first slide.</p>
       </div>
     </div>
     <div class="carousel-item">
-      <img src="..." class="d-block w-100" alt="...">
+      <img src="./assets/img/carroussel2.jpeg" class="d-block w-100" alt="..." style="margin: 5% 4% 5% 4%; height : 800px;">
       <div class="carousel-caption d-none d-md-block">
-        <h5>Second slide label</h5>
+        <h5>Une Evasion de saveur</h5>
         <p>Some representative placeholder content for the second slide.</p>
       </div>
     </div>
     <div class="carousel-item">
-      <img src="..." class="d-block w-100" alt="...">
+      <img src="./assets/img/cheese-7952772.jpg" class="d-block w-100" alt="..." style="margin: 5% 4% 5% 4%; height : 800px;">
       <div class="carousel-caption d-none d-md-block">
-        <h5>Third slide label</h5>
+        <h5>Des produits d'Exeption</h5>
         <p>Some representative placeholder content for the third slide.</p>
       </div>
     </div>

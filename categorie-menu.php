@@ -1,8 +1,7 @@
 <?php    
 include './header.php';
-?>
 
-<?php
+
 // Configuration de la base de données
 $host = '127.0.0.1';
 $dbname = 'thedistrict';
@@ -31,6 +30,9 @@ if (!empty($search)) {
 // Exécution de la requête
 $categories = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
+
+
+
 // Suppression d'une catégorie
 if (isset($_GET['delete'])) {
     $deleteID = $_GET['delete'];
@@ -49,7 +51,18 @@ if (isset($_GET['delete'])) {
     exit;
 }
 
+
+
+
+ if(isset($_SESSION['type_ID'])){
+    $userType = $_SESSION['type_ID'];
+    $isCommercialOrAdmin = $userType === 'commercial' || $userType === 'admin';
+} else {
+    $isCommercialOrAdmin = false;
+}
 ?>
+
+
 
 <div class="container my-5">
     <h1 class="mb-4">Tous nos catégories</h1>
@@ -63,8 +76,13 @@ if (isset($_GET['delete'])) {
         </div>
     </form>
 
+
+    <!-- Visible seulement si utilisateur commercial ou admin -->
     <!--Bouton Ajout (TODO: if type d'utilisateur admin ou commercial) -->
-    <a href="categorie-select.php" class="btn btn-dark">Ajouter une catégorie</a>
+    <?php if($isCommercialOrAdmin):?>
+        <a href="categorie-select.php" class="btn btn-dark">Ajouter une catégorie</a>
+    <?php endif;?>
+   
 
     <!-- Liste des catégories -->
     <div class="row">
@@ -77,9 +95,11 @@ if (isset($_GET['delete'])) {
                             <h3 class="card-title"><?= htmlentities($category['categorie_libelle']) ?></h3>
 
                             <!-- Boutons Modifier et Supprimer (TODO: if type d'utilisateur admin ou commercial) -->
+                             <?php if($isCommercialOrAdmin):?>
                             <a class="btn btn-success" href="categorie-select.php?modify=<?= htmlentities($category['categorie_ID'])?>">Modifier</a>
                             <a class="btn btn-danger" href="categorie-menu.php?delete=<?= htmlentities($category['categorie_ID'])?>"
                             onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette catégorie ?')">Supprimer</a>
+                            <?php endif;?>
                         </div>
                     </div>
                 </div>

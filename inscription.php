@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	} else {
 		// Insertion de l'utilisateur dans la base de données
 		$password_hash = password_hash($password, PASSWORD_DEFAULT); // Hashage du mot de passe
-		$stmt = $pdo->prepare("INSERT INTO utilisateur (utilisateur_pseudo, utlisateur_email, utilisateur_password, type_ID) 
+		$stmt = $pdo->prepare("INSERT INTO utilisateur (utilisateur_pseudo, utilisateur_email, utilisateur_password, type_ID) 
 		VALUES (:utilisateur_pseudo, :email, :mot_de_passe, 2)"); //on force le type utilisateur à client
 		$stmt->bindValue(':utilisateur_pseudo', $login);
         $stmt->bindValue(':email', $email);
