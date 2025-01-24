@@ -1,8 +1,7 @@
 <?php    
 include './header.php';
-?>
 
-<?php
+
 // Configuration de la base de données
 $host = '127.0.0.1';
 $dbname = 'thedistrict';
@@ -52,10 +51,10 @@ if (isset($_GET['delete'])) {
     exit;
 }
 
-?>
 
 
-<?php if(isset($_SESSION['type_ID'])){
+
+ if(isset($_SESSION['type_ID'])){
     $userType = $_SESSION['type_ID'];
     $isCommercialOrAdmin = $userType === 'commercial' || $userType === 'admin';
 } else {

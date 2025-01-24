@@ -1,13 +1,15 @@
 <?php
 include './header.php';
 echo "Ceci est la page de connexion!";
-?>
-<?php
+
 // Véfifier si l'utilisateur est connecté
 if (isset($_SESSION['utilisateur_ID'])) {
-    header('Location: index.php'); // Redirection vers la page d'acceuil si l'utilisateur est déjà connecté
+    var_dump($_SESSION['utilisateur_ID']); // Debug: Afficher l'ID de l'utilisateur
+    exit('Utilisateur déjà connecté, redirection vers index.php'); // Debug: Message avant redirection
+    header('Location: index.php'); // Redirection vers la page d'accueil si l'utilisateur est déjà connecté
     exit();
 }
+
 
 // Traitement de la soumission du formulaire de connexion
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -16,15 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
 
     var_dump($login, $password);
-
-
-    try {
-        $pdo = new PDO('mysql:host=localhost;dbname=thedistrict', 'root', '');
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        echo "<br>Connexion réussie";
-    } catch (PDOException $e) {
-        die("Erreur de connexion : " . $e->getMessage());
-    }
 
 
     $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE utilisateur_email = :login");;
@@ -67,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?= $error_message ?>
             </div>
         <?php endif; ?>
-        <form method="post" class="form-connexion">
+        <form method="POST" class="form-connexion">
             <div class="textbox">
                 <input type="text" name="username" placeholder="Email" class="input-connexion" autocomplete="on" required>
             </div>

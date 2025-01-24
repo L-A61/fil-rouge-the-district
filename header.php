@@ -1,6 +1,4 @@
-<?php 
-session_start();
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -61,7 +59,16 @@ session_start();
   </header>
 
   <?php 
- 
+ session_start();
+
+
+ // Connexion à la base de données
+try {
+  $pdo = new PDO('mysql:host=localhost;dbname=thedistrict', 'root', '');
+  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+  die("Erreur de connexion : " . $e->getMessage());
+}
  
   // Vérifiez si l'utilisateur est connecté
   $username = null;
@@ -69,9 +76,9 @@ session_start();
     $userId = $_SESSION['utilisateur_ID'];
 
     // Récupération des informations de l'utilisateur
-    $sqlUser = "SELECT Login FROM utlisateur WHERE utilisateur_pseudo=:utilisateur_pseudo";
+    $sqlUser = "SELECT * FROM utilisateur WHERE utilisateur_ID=:utilisateur_ID";
     $stmtUser = $pdo->prepare($sqlUser);
-    $stmtUser->execute(['utilisateur_pseudo' => $userId]);
+    $stmtUser->execute(['utilisateur_ID' => $userId]);
     $user = $stmtUser->fetch(PDO::FETCH_ASSOC);
 
     if ($user) {
