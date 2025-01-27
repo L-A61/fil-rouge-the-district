@@ -50,6 +50,7 @@ if (isset($_GET['delete'])) {
     </form>
     <!--Bouton Ajout (TODO: if type d'utilisateur admin ou commercial) -->
     <a href="produit-select.php" class="btn btn-dark">Ajouter un produit</a>
+    <a href="categorie-menu.php" class="btn btn-info">Filtrer par catégorie</a>
     <!-- Liste des produits -->
     <div class="row">
         <?php if (count($produits) > 0): ?>

@@ -67,9 +67,10 @@ if (isset($_GET['delete'])) {
 
     <!-- Visible seulement si utilisateur commercial ou admin -->
     <!--Bouton Ajout (TODO: if type d'utilisateur admin ou commercial) -->
-    <?php if($isCommercialOrAdmin):?>
+    <?php // if($isCommercialOrAdmin):?>
         <a href="categorie-select.php" class="btn btn-dark">Ajouter une catégorie</a>
-    <?php endif;?>
+        
+    <?php //  endif;?>
    
 
     <!-- Liste des catégories -->

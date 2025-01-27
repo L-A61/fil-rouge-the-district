@@ -1,11 +1,9 @@
-DROP DATABASE IF EXISTS thedistrict;
-
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mer. 22 jan. 2025 à 09:06
+-- Généré le : lun. 27 jan. 2025 à 16:35
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -44,11 +42,11 @@ CREATE TABLE IF NOT EXISTS `categorie` (
 --
 
 INSERT INTO `categorie` (`categorie_ID`, `categorie_libelle`, `categorie_image`) VALUES
-(1, 'Entres', NULL),
+(1, 'Entrées', NULL),
 (2, 'Plats', NULL),
 (3, 'Accompagnements', NULL),
 (4, 'Desserts', NULL),
-(5, 'Plat du jour', NULL),
+(5, 'Plats du jour', NULL),
 (6, 'Boissons', NULL);
 
 -- --------------------------------------------------------
@@ -199,12 +197,19 @@ DROP TABLE IF EXISTS `utilisateur`;
 CREATE TABLE IF NOT EXISTS `utilisateur` (
   `utilisateur_ID` int(11) NOT NULL AUTO_INCREMENT,
   `utilisateur_pseudo` varchar(50) NOT NULL,
-  `utlisateur_email` varchar(50) NOT NULL,
+  `utilisateur_email` varchar(50) DEFAULT NULL,
   `utilisateur_password` varchar(50) NOT NULL,
   `type_ID` int(11) NOT NULL,
   PRIMARY KEY (`utilisateur_ID`),
   KEY `type_ID` (`type_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `utilisateur`
+--
+
+INSERT INTO `utilisateur` (`utilisateur_ID`, `utilisateur_pseudo`, `utilisateur_email`, `utilisateur_password`, `type_ID`) VALUES
+(9, 'axel', 'axe.lou@gmail.com', '$2y$10$Ypvi9meulWUmNNx2euJogOoa3sl8EuoElPFm1xnd8Di', 1);
 
 --
 -- Contraintes pour les tables déchargées
