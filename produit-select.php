@@ -5,10 +5,14 @@ $id = isset($_GET['modify']) ? $_GET['modify'] : '';
 $libelle = $idValue = '';
 $idProduit = null;
 
+$categories = [];
+
 if ($id !== '') {
-    $sql = "SELECT * from produit where produit_ID = '$id'";
+    $sql = "SELECT * FROM produit p JOIN categorie c ON p.categorie_ID = c.categorie_ID WHERE p.produit_ID = '$id'";
     $result = $pdo->query($sql);
     $product = $result->fetch(PDO::FETCH_ASSOC);
+
+    $categories = $pdo->query("SELECT categorie_ID, categorie_libelle FROM categorie")->fetchAll();
 
     if ($product) {
         $image = $product['produit_image'];
@@ -16,6 +20,7 @@ if ($id !== '') {
         $prix = $product['produit_prix'];
         $description = $product['produit_description'];
         $categorie = $product['categorie_ID'];
+        $categorieLibelle = $product['categorie_libelle'];
 
         $idValue = $product['produit_ID'];
         $idProduit = $product['produit_ID'];
@@ -34,16 +39,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
 
     if ($idProduit !== null) {
-        $sql = "UPDATE produit SET 
-        produit_image = '$image',
-        produit_libelle = '$libelle',
-        produit_prix = '$prix',
-        produit_description = '$description',
-        categorie_id = '$categorie'        
-        WHERE produit_ID = '$idProduit'";
+        $sql = "UPDATE produit p SET 
+        p.produit_image = '$image',
+        p.produit_libelle = '$libelle',
+        p.produit_prix = '$prix',
+        p.produit_description = '$description',
+        p.categorie_id = '$categorie'        
+        WHERE p.produit_ID = '$idProduit'";
         $pdo->exec($sql);
     } else {
-        $sql = "INSERT INTO produit (produit_image, produit_libelle, produit_prix, produit_description, categorie_ID) 
+        $sql = "INSERT INTO produit p (p.produit_image, p.produit_libelle, p.produit_prix, p.produit_description, p.categorie_ID) 
         VALUES ('$image', '$libelle', '$prix', '$description', '$categorie')";
         $pdo->exec($sql);
     }
@@ -59,26 +64,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <form method="post">
         <div class="mb-3">
             <label for="image" class="form-label">Image du produit: </label>
-            <input type="text" class="form-control" id="image" name="image" value="<?= htmlentities($image) ?>">
+            <input type="text" class="form-control" id="image" name="image" value="<?= $id ? htmlentities($image) : "" ?>">
 
-            <label for="categorie" class="form-label">Catégorie du produit: </label><br>
-            <select name="categorie" id="categorie">
-                <option value="1">Entrées</option>
-                <option value="2">Plats</option>
-                <option value="3">Accompagnements</option>
-                <option value="4">Desserts</option>
-                <option value="5">Plat du jour</option>
-                <option value="6">Boissons</option>
-            </select><br>
+            <label for="categorie" class="form-label">Catégorie du produit: </label>
+            <select name="categorie" class="form-control" id="categorie">
+                <?php foreach($categories as $categorie):?>
+
+                <?php endforeach ?>
+            </select>
 
             <label for="libelle" class="form-label">Nom du produit: </label>
-            <input type="text" class="form-control" id="libelle" name="libelle" value="<?= htmlentities($libelle) ?>" required>
+            <input type="text" class="form-control" id="libelle" name="libelle" value="<?= $id ? htmlentities($libelle) : "" ?>" required>
 
             <label for="prix" class="form-label">Prix du produit: </label>
-            <input type="text" class="form-control" id="prix" name="prix" value="<?= htmlentities($prix) ?>" required>
+            <input type="text" class="form-control" id="prix" name="prix" value="<?= $id ? htmlentities($prix) : "" ?>" required>
 
             <label for="description" class="form-label">Description du produit: </label>
-            <input type="text" class="form-control" id="description" name="description" value="<?= htmlentities($description) ?>" required>
+            <input type="text" class="form-control" id="description" name="description" value="<?= $id ? htmlentities($description) : "" ?>" required>
             
         </div>
         <button type="submit" class="btn btn-warning"><?= $id ? "Mettre à jour" : "Créer" ?></button>

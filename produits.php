@@ -58,7 +58,7 @@ if (isset($_GET['delete'])) {
                 <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-body">
-                            <button><a href=""><img src="./assets/img/default.jpeg" class="card-img" alt=""></a></button>
+                            <img src="./assets/img/default.jpeg" class="card-img" alt="">
                             <h3 class="card-title"><?= htmlentities($product['produit_libelle']) ?></h3>
                             <p class="card-text"><strong>Catégorie :</strong>
                                 <?= htmlentities($product['categorie_libelle']) ?></p>
