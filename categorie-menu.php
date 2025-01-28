@@ -1,6 +1,7 @@
 <?php
 include './header.php';
 
+
 // Initialisation des variables
 $searchCat = isset($_GET['searchCat']) ? $_GET['searchCat'] : '';
 $searchProd = isset($_GET['searchProd']) ? $_GET['searchProd'] : '';
@@ -39,14 +40,12 @@ if (isset($_GET['delete'])) {
 }
 
 
-
-
- if(isset($_SESSION['type_ID'])){
-    $userType = $_SESSION['type_ID'];
-    $isCommercialOrAdmin = $userType === 'commercial' || $userType === 'admin';
-} else {
-    $isCommercialOrAdmin = false;
-}
+// Affiche si l'utilisateur est un admin/commercial ou un client (FONCTIONALITÉ DEBUG)
+// if ($isCommercialOrAdmin) {
+//     echo "Bonjour, Admin/Commercial";
+// } else {
+//     echo "Bonjour, client";
+// }
 ?>
 
 
@@ -66,11 +65,9 @@ if (isset($_GET['delete'])) {
 
 
     <!-- Visible seulement si utilisateur commercial ou admin -->
-    <!--Bouton Ajout (TODO: if type d'utilisateur admin ou commercial) -->
-    <?php // if($isCommercialOrAdmin):?>
+    <?php if($isCommercialOrAdmin):?>
         <a href="categorie-select.php" class="btn btn-dark">Ajouter une catégorie</a>
-        
-    <?php //  endif;?>
+    <?php endif;?>
    
 
     <!-- Liste des catégories -->
@@ -83,7 +80,8 @@ if (isset($_GET['delete'])) {
                             <img src="./assets/img/default.jpeg" class="card-img" alt="">
                             <h3 class="card-title"><?= htmlentities($category['categorie_libelle']) ?></h3>
                             <a class="btn btn-info" href="produits.php?category=<?= htmlentities($category['categorie_libelle']) ?>">Afficher Les Produits</a>
-                            <!-- Boutons Modifier et Supprimer (TODO: if type d'utilisateur admin ou commercial) -->
+                            
+                            <!-- Accès au bouton modifier et supprimer si l'utilisateur est admin ou commercial -->
                              <?php if($isCommercialOrAdmin):?>
                             <a class="btn btn-success" href="categorie-select.php?modify=<?= htmlentities($category['categorie_ID'])?>">Modifier</a>
                             <a class="btn btn-danger" href="categorie-menu.php?delete=<?= htmlentities($category['categorie_ID'])?>"

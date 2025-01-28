@@ -2,7 +2,6 @@
 <?php    
 include './header.php';
 
-echo "Ceci est la page d'accueil!";
 ?>
 <div id="carouselExampleCaptions" class="carousel slide">
   <div class="carousel-indicators">

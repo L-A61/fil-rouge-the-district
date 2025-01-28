@@ -1,11 +1,10 @@
 <?php
 include './header.php';
-echo "Ceci est la page de connexion!";
 
 // Véfifier si l'utilisateur est connecté
 if (isset($_SESSION['utilisateur_ID'])) {
     var_dump($_SESSION['utilisateur_ID']); // Debug: Afficher l'ID de l'utilisateur
-    exit('Utilisateur déjà connecté, redirection vers index.php'); // Debug: Message avant redirection
+    // exit('Utilisateur déjà connecté, redirection vers index.php'); // Debug: Message avant redirection
     header('Location: index.php'); // Redirection vers la page d'accueil si l'utilisateur est déjà connecté
     exit();
 }

@@ -48,8 +48,11 @@ if (isset($_GET['delete'])) {
             <button type="submit" class="btn btn-warning">Rechercher</button>
         </div>
     </form>
-    <!--Bouton Ajout (TODO: if type d'utilisateur admin ou commercial) -->
+    <!--Bouton Ajouter un produit si l'utilisateur est un commercial ou admin -->
+    <?php if($isCommercialOrAdmin):?>
     <a href="produit-select.php" class="btn btn-dark">Ajouter un produit</a>
+    <?php endif;?>
+
     <a href="categorie-menu.php" class="btn btn-info">Filtrer par catégorie</a>
     <!-- Liste des produits -->
     <div class="row">
@@ -63,13 +66,15 @@ if (isset($_GET['delete'])) {
                             <p class="card-text"><strong>Catégorie :</strong>
                                 <?= htmlentities($product['categorie_libelle']) ?></p>
                             <p class="card-text"><strong>Prix:</strong>
-                                <?= number_format($product['produit_prix']) ?> €</p>
+                                <?= htmlentities($product['produit_prix']) ?> €</p>
                                 <p class="card-text"><strong>Description:</strong>
                                 <?= htmlentities($product['produit_description']) ?></p>
-                            <!-- Boutons Modifier et Supprimer (TODO: if type d'utilisateur admin ou commercial) -->
+                            <!-- Boutons Modifier et Supprimer si l'utilisateur est un admin ou commercial -->
+                            <?php if($isCommercialOrAdmin):?>
                             <a class="btn btn-success" href="produit-select.php?modify=<?= htmlentities($product['produit_ID']) ?>">Modifier</a>
                             <a class="btn btn-danger" href="produits.php?delete=<?= htmlentities($product['produit_ID']) ?>"
                                 onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">Supprimer</a>
+                            <?php endif;?>
                         </div>
                     </div>
                 </div>
