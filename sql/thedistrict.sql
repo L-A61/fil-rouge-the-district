@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mar. 28 jan. 2025 à 08:26
+-- Généré le : lun. 27 jan. 2025 à 16:35
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -36,10 +36,6 @@ CREATE TABLE IF NOT EXISTS `categorie` (
   `categorie_image` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`categorie_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- RELATIONS POUR LA TABLE `categorie`:
---
 
 --
 -- Déchargement des données de la table `categorie`
@@ -75,12 +71,6 @@ CREATE TABLE IF NOT EXISTS `client` (
   UNIQUE KEY `utilisateur_ID` (`utilisateur_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- RELATIONS POUR LA TABLE `client`:
---   `utilisateur_ID`
---       `utilisateur` -> `utilisateur_ID`
---
-
 -- --------------------------------------------------------
 
 --
@@ -97,12 +87,6 @@ CREATE TABLE IF NOT EXISTS `commande` (
   KEY `client_ID` (`client_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- RELATIONS POUR LA TABLE `commande`:
---   `client_ID`
---       `client` -> `client_ID`
---
-
 -- --------------------------------------------------------
 
 --
@@ -117,10 +101,6 @@ CREATE TABLE IF NOT EXISTS `peut_contenir` (
   PRIMARY KEY (`produit_ID`,`commande_ID`),
   KEY `commande_ID` (`commande_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- RELATIONS POUR LA TABLE `peut_contenir`:
---
 
 -- --------------------------------------------------------
 
@@ -139,10 +119,6 @@ CREATE TABLE IF NOT EXISTS `produit` (
   PRIMARY KEY (`produit_ID`),
   KEY `categorie_ID` (`categorie_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- RELATIONS POUR LA TABLE `produit`:
---
 
 --
 -- Déchargement des données de la table `produit`
@@ -203,10 +179,6 @@ CREATE TABLE IF NOT EXISTS `type` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- RELATIONS POUR LA TABLE `type`:
---
-
---
 -- Déchargement des données de la table `type`
 --
 
@@ -226,23 +198,18 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `utilisateur_ID` int(11) NOT NULL AUTO_INCREMENT,
   `utilisateur_pseudo` varchar(50) NOT NULL,
   `utilisateur_email` varchar(50) DEFAULT NULL,
-  `utilisateur_password` varchar(255) DEFAULT NULL,
+  `utilisateur_password` varchar(50) NOT NULL,
   `type_ID` int(11) NOT NULL,
   PRIMARY KEY (`utilisateur_ID`),
   KEY `type_ID` (`type_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- RELATIONS POUR LA TABLE `utilisateur`:
---
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `utilisateur`
 --
 
 INSERT INTO `utilisateur` (`utilisateur_ID`, `utilisateur_pseudo`, `utilisateur_email`, `utilisateur_password`, `type_ID`) VALUES
-(9, 'axel', 'axe.lou@gmail.com', '$2y$10$Ypvi9meulWUmNNx2euJogOoa3sl8EuoElPFm1xnd8Di', 1),
-(11, 'test', 'test@test.com', '$2y$10$i2iVxQUcbfOBiYCRpB3i7uyXuBNKT0nXjpnNqR4dkU77pvuARGCii', 2);
+(9, 'axel', 'axe.lou@gmail.com', '$2y$10$Ypvi9meulWUmNNx2euJogOoa3sl8EuoElPFm1xnd8Di', 1);
 
 --
 -- Contraintes pour les tables déchargées
