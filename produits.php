@@ -63,10 +63,10 @@ if (isset($_GET['delete'])) {
             <button type="submit" class="btn btn-warning">Rechercher</button>
         </div>
     </form>
-    <!--Bouton Ajout (TODO: if type d'utilisateur admin ou commercial) -->
-    <?php if ($isCommercialOrAdmin): ?>
-        <a href="produit-select.php" class="btn btn-dark">Ajouter un produit</a>
-    <?php endif; ?>
+    <!--Bouton Ajouter un produit si l'utilisateur est un commercial ou admin -->
+    <?php if($isCommercialOrAdmin):?>
+    <a href="produit-select.php" class="btn btn-dark">Ajouter un produit</a>
+    <?php endif;?>
 
     <a href="categorie-menu.php" class="btn btn-info">Filtrer par catégorie</a>
     <!-- Liste des produits -->
@@ -81,29 +81,15 @@ if (isset($_GET['delete'])) {
                             <p class="card-text"><strong>Catégorie :</strong>
                                 <?= htmlentities($product['categorie_libelle']) ?></p>
                             <p class="card-text"><strong>Prix:</strong>
-                                <?= number_format($product['produit_prix']) ?> €</p>
-                            <p class="card-text"><strong>Description:</strong>
+                                <?= htmlentities($product['produit_prix']) ?> €</p>
+                                <p class="card-text"><strong>Description:</strong>
                                 <?= htmlentities($product['produit_description']) ?></p>
-
-                            <!-- boutton ajouter au panier  -->
-                            <form action="ajoutpanier.php" method="post">
-                                <input type="hidden" name="libelle" value="<?php echo htmlspecialchars($produit['libelle']); ?>">
-                                <input type="hidden" name="prix" value="<?php echo htmlspecialchars($produit['prix']); ?>">
-                                <input type="hidden" name="categorie" value="<?php echo htmlspecialchars($produit['categorie']); ?>">
-                                <input type="hidden" name="description" value="<?php echo htmlspecialchars($produit['description']); ?>">
-                                <input type="hidden" name="image" value="<?php echo htmlspecialchars($produit['image']); ?>">
-
-
-                                <button type="submit" class="btn">
-                                    <img src="./assets/cart.png" style="width: 50%;"></button>
-                            </form>
-
-                            <!-- Boutons Modifier et Supprimer (TODO: if type d'utilisateur admin ou commercial) -->
-                            <?php if ($isCommercialOrAdmin): ?>
-                                <a class="btn btn-success" href="produit-select.php?modify=<?= htmlentities($product['produit_ID']) ?>">Modifier</a>
-                                <a class="btn btn-danger" href="produits.php?delete=<?= htmlentities($product['produit_ID']) ?>"
-                                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">Supprimer</a>
-                            <?php endif; ?>
+                            <!-- Boutons Modifier et Supprimer si l'utilisateur est un admin ou commercial -->
+                            <?php if($isCommercialOrAdmin):?>
+                            <a class="btn btn-success" href="produit-select.php?modify=<?= htmlentities($product['produit_ID']) ?>">Modifier</a>
+                            <a class="btn btn-danger" href="produits.php?delete=<?= htmlentities($product['produit_ID']) ?>"
+                                onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">Supprimer</a>
+                            <?php endif;?>
                         </div>
                     </div>
                 </div>
