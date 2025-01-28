@@ -6,7 +6,7 @@ $searchCat = isset($_GET['searchCat']) ? $_GET['searchCat'] : '';
 $searchProd = isset($_GET['searchProd']) ? $_GET['searchProd'] : '';
 
 // Requête SQL pour récupérer les catégories
-$sqlCat = "SELECT categorie_ID, categorie_libelle FROM categorie";
+$sqlCat = "SELECT * FROM categorie";
 
 // Requête SQL pour récupérer les produits
 $sqlProd = "SELECT * FROM produit p 
@@ -47,6 +47,20 @@ if (isset($_GET['delete'])) {
 } else {
     $isCommercialOrAdmin = false;
 }
+
+// Gestion de l'upload de fichier
+if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+   $uploads_dir = 'assets/img/';
+   $tmp_name = $_FILES['photo']['tmp_name'];
+   $filename = uniqid() . '_' . basename($_FILES['photo']['name']);
+   $photo_path = $uploads_dir . $filename;
+
+   if (move_uploaded_file($tmp_name, $photo_path)) {
+       $photo = $filename;
+   } else {
+       $message = "Erreur lors de l'upload de la photo.";
+   }
+}
 ?>
 
 
@@ -80,7 +94,7 @@ if (isset($_GET['delete'])) {
                 <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-body">
-                            <img src="./assets/img/default.jpeg" class="card-img" alt="">
+                         <img src="./assets/img/<?= htmlentities($category['categorie_image']) ?>" class="card-img" alt="">
                             <h3 class="card-title"><?= htmlentities($category['categorie_libelle']) ?></h3>
                             <a class="btn btn-info" href="produits.php?category=<?= htmlentities($category['categorie_libelle']) ?>">Afficher Les Produits</a>
                             <!-- Boutons Modifier et Supprimer (TODO: if type d'utilisateur admin ou commercial) -->

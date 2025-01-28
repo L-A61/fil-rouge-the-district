@@ -37,6 +37,20 @@ if (isset($_GET['delete'])) {
     header('Location: produits.php');
     exit;
 }
+
+ // Gestion de l'upload de fichier
+ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+    $uploads_dir = 'assets/img/';
+    $tmp_name = $_FILES['photo']['tmp_name'];
+    $filename = uniqid() . '_' . basename($_FILES['photo']['name']);
+    $photo_path = $uploads_dir . $filename;
+
+    if (move_uploaded_file($tmp_name, $photo_path)) {
+        $photo = $filename;
+    } else {
+        $message = "Erreur lors de l'upload de la photo.";
+    }
+}
 ?>
 <div class="container my-5">
     <h1 class="mb-4">Nos produits</h1>
@@ -58,7 +72,7 @@ if (isset($_GET['delete'])) {
                 <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-body">
-                            <button><a href=""><img src="./assets/img/default.jpeg" class="card-img" alt=""></a></button>
+                            <img src="./assets/img/<?= htmlentities($product['produit_image']) ?>" class="card-img" alt="">
                             <h3 class="card-title"><?= htmlentities($product['produit_libelle']) ?></h3>
                             <p class="card-text"><strong>Catégorie :</strong>
                                 <?= htmlentities($product['categorie_libelle']) ?></p>
