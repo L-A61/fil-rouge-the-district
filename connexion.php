@@ -14,7 +14,7 @@ if (isset($_SESSION['utilisateur_ID'])) {
 // Traitement de la soumission du formulaire de connexion
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Réception des données du formulaire en méthodes POST
-    $login = $_POST['username'];
+    $login = $_POST['email'];
     $password = $_POST['password'];
 
     // var_dump($login, $password);
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
         <form method="POST" class="form-connexion">
             <div class="textbox">
-                <input type="text" name="username" placeholder="Email" class="input-connexion" autocomplete="on" required>
+                <input type="text" name="email" placeholder="Email" class="input-connexion" autocomplete="on" required>
             </div>
             <br>
             <div class="textbox">

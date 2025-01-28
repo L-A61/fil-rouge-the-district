@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <form method="post">
         <div class="mb-3">
             <label for="image" class="form-label">Image du produit: </label>
-            <input type="text" class="form-control" id="image" name="image" value="<?= htmlentities($image) ?>">
+            <input type="text" class="form-control" id="image" name="image">>
 
             <label for="categorie" class="form-label">Catégorie du produit: </label><br>
             <select name="categorie" id="categorie">
@@ -72,13 +72,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </select><br>
 
             <label for="libelle" class="form-label">Nom du produit: </label>
-            <input type="text" class="form-control" id="libelle" name="libelle" value="<?= htmlentities($libelle) ?>" required>
+            <input type="text" class="form-control" id="libelle" name="libelle" required>
 
             <label for="prix" class="form-label">Prix du produit: </label>
-            <input type="text" class="form-control" id="prix" name="prix" value="<?= htmlentities($prix) ?>" required>
+            <input type="text" class="form-control" id="prix" name="prix" required>
 
             <label for="description" class="form-label">Description du produit: </label>
-            <input type="text" class="form-control" id="description" name="description" value="<?= htmlentities($description) ?>" required>
+            <input type="text" class="form-control" id="description" name="description" required>
             
         </div>
         <button type="submit" class="btn btn-warning"><?= $id ? "Mettre à jour" : "Créer" ?></button>
