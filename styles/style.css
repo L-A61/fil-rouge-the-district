@@ -174,10 +174,6 @@ button.positionf:hover{
 
 
 
-
-
-
-
 /* CSS pour la page de connexion */
 
 
@@ -435,4 +431,33 @@ button.positionf:hover{
     font-size: 1em;
     text-align: center;
     margin-top: 30px;
+}
+
+/* Panier */
+.panier-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.item-details {
+    margin-left: 1rem;
+}
+
+.total-section {
+    margin: 1rem 0;
+    padding-top: 1rem;
+    border-top: 2px solid #eee;
+}
+
+.panier-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.panier-actions .btn {
+    flex: 1;
 }

@@ -23,6 +23,11 @@ if (!isset($_SESSION['panier']) || empty($_SESSION['panier'])) {
     echo "Votre panier est vide.";
     exit();
 }
+
+// Récupérer les informations du panier
+function getProduits($id){
+    $product = ($id);
+}
 ?>
 
 <!DOCTYPE html>

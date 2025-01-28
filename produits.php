@@ -4,7 +4,7 @@ include './header.php';
 <?php
 
 // Initialisation des variables
-$category = isset($_GET['category'])? $_GET['category'] : '';
+$category = isset($_GET['category']) ? $_GET['category'] : '';
 
 $search = isset($_GET['searchCat']) ? $_GET['searchCat'] : '';
 // Requête SQL pour récupérer les produits
@@ -29,6 +29,7 @@ if (isset($_GET['delete'])) {
     $stmt = $pdo->prepare("SELECT produit_ID FROM produit WHERE produit_ID = :id");
     $stmt->execute([':id' => $deleteID]);
     $product = $stmt->fetch(PDO::FETCH_ASSOC);
+
     if ($product) {
         $deleteSql = "DELETE FROM produit WHERE produit_ID = :id";
         $stmt = $pdo->prepare($deleteSql);
@@ -37,6 +38,16 @@ if (isset($_GET['delete'])) {
     header('Location: produits.php');
     exit;
 }
+
+
+if (isset($_SESSION['type_libelle'])) {
+    $userType = $_SESSION['type_libelle'];
+    $isCommercialOrAdmin = $userType === 'commercial' || $userType === 'admin';
+} else {
+    $isCommercialOrAdmin = false;
+}
+?>
+
 ?>
 <div class="container my-5">
     <h1 class="mb-4">Nos produits</h1>
@@ -49,7 +60,10 @@ if (isset($_GET['delete'])) {
         </div>
     </form>
     <!--Bouton Ajout (TODO: if type d'utilisateur admin ou commercial) -->
-    <a href="produit-select.php" class="btn btn-dark">Ajouter un produit</a>
+    <?php if ($isCommercialOrAdmin): ?>
+        <a href="produit-select.php" class="btn btn-dark">Ajouter un produit</a>
+    <?php endif; ?>
+
     <a href="categorie-menu.php" class="btn btn-info">Filtrer par catégorie</a>
     <!-- Liste des produits -->
     <div class="row">
@@ -64,12 +78,28 @@ if (isset($_GET['delete'])) {
                                 <?= htmlentities($product['categorie_libelle']) ?></p>
                             <p class="card-text"><strong>Prix:</strong>
                                 <?= number_format($product['produit_prix']) ?> €</p>
-                                <p class="card-text"><strong>Description:</strong>
+                            <p class="card-text"><strong>Description:</strong>
                                 <?= htmlentities($product['produit_description']) ?></p>
+
+                            <!-- boutton ajouter au panier  -->
+                            <form action="ajoutpanier.php" method="post">
+                                <input type="hidden" name="libelle" value="<?php echo htmlspecialchars($produit['libelle']); ?>">
+                                <input type="hidden" name="prix" value="<?php echo htmlspecialchars($produit['prix']); ?>">
+                                <input type="hidden" name="categorie" value="<?php echo htmlspecialchars($produit['categorie']); ?>">
+                                <input type="hidden" name="description" value="<?php echo htmlspecialchars($produit['description']); ?>">
+                                <input type="hidden" name="image" value="<?php echo htmlspecialchars($produit['image']); ?>">
+
+
+                                <button type="submit" class="btn">
+                                    <img src="./assets/cart.png" style="width: 50%;"></button>
+                            </form>
+
                             <!-- Boutons Modifier et Supprimer (TODO: if type d'utilisateur admin ou commercial) -->
-                            <a class="btn btn-success" href="produit-select.php?modify=<?= htmlentities($product['produit_ID']) ?>">Modifier</a>
-                            <a class="btn btn-danger" href="produits.php?delete=<?= htmlentities($product['produit_ID']) ?>"
-                                onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">Supprimer</a>
+                            <?php if ($isCommercialOrAdmin): ?>
+                                <a class="btn btn-success" href="produit-select.php?modify=<?= htmlentities($product['produit_ID']) ?>">Modifier</a>
+                                <a class="btn btn-danger" href="produits.php?delete=<?= htmlentities($product['produit_ID']) ?>"
+                                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">Supprimer</a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>

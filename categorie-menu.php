@@ -40,9 +40,9 @@ if (isset($_GET['delete'])) {
 
 
 
-
- if(isset($_SESSION['type_ID'])){
-    $userType = $_SESSION['type_ID'];
+// Recupere la session et détermine si l'utilisateur est commercial ou admin
+if (isset($_SESSION['type_libelle'])) {
+    $userType = $_SESSION['type_libelle'];
     $isCommercialOrAdmin = $userType === 'commercial' || $userType === 'admin';
 } else {
     $isCommercialOrAdmin = false;
@@ -67,11 +67,11 @@ if (isset($_GET['delete'])) {
 
     <!-- Visible seulement si utilisateur commercial ou admin -->
     <!--Bouton Ajout (TODO: if type d'utilisateur admin ou commercial) -->
-    <?php // if($isCommercialOrAdmin):?>
+    <?php if ($isCommercialOrAdmin): ?>
         <a href="categorie-select.php" class="btn btn-dark">Ajouter une catégorie</a>
-        
-    <?php //  endif;?>
-   
+
+    <?php endif; ?>
+
 
     <!-- Liste des catégories -->
     <div class="row">
@@ -84,11 +84,11 @@ if (isset($_GET['delete'])) {
                             <h3 class="card-title"><?= htmlentities($category['categorie_libelle']) ?></h3>
                             <a class="btn btn-info" href="produits.php?category=<?= htmlentities($category['categorie_libelle']) ?>">Afficher Les Produits</a>
                             <!-- Boutons Modifier et Supprimer (TODO: if type d'utilisateur admin ou commercial) -->
-                             <?php if($isCommercialOrAdmin):?>
-                            <a class="btn btn-success" href="categorie-select.php?modify=<?= htmlentities($category['categorie_ID'])?>">Modifier</a>
-                            <a class="btn btn-danger" href="categorie-menu.php?delete=<?= htmlentities($category['categorie_ID'])?>"
-                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette catégorie ?')">Supprimer</a>
-                            <?php endif;?>
+                            <?php if ($isCommercialOrAdmin): ?>
+                                <a class="btn btn-success" href="categorie-select.php?modify=<?= htmlentities($category['categorie_ID']) ?>">Modifier</a>
+                                <a class="btn btn-danger" href="categorie-menu.php?delete=<?= htmlentities($category['categorie_ID']) ?>"
+                                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette catégorie ?')">Supprimer</a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
