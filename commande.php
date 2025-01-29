@@ -3,13 +3,32 @@ include './header.php';
 
 $utilisateur = $_SESSION['utilisateur_ID'] ?? null;
 
+if (!isset($_SESSION['utilisateur_ID'])) {
+    header('Location: connexion.php');
+}
+
 $clientExistant = null;
 $adressesExistantes = [];
+$erreurs = [];
+$success = "";
+
+function insererAdresse($pdo, $adresse1, $adresse2, $adresse3, $codepostal, $ville, $clientID) {
+    $stmt = $pdo->prepare('INSERT INTO client (client_adresse1, client_adresse2, client_adresse3, client_cp, client_ville, client_ID)');
+    $stmt->execute([$adresse1, $adresse2, $adresse3, $codepostal, $ville, $clientID]);
+    return $pdo->lastInsertId();
+}
 
 if ($utilisateur) {
     $stmtClient = $pdo->prepare("SELECT * FROM client WHERE utilisateur_ID = :utilisateur_ID");
     $stmtClient->execute([':utilisateur_ID' => $_SESSION['utilisateur_ID']]);
     $clientExistant = $stmtClient->fetch(PDO::FETCH_ASSOC);
+
+    if ($clientExistant) {
+        $clientID = $clientExistant["client_ID"];
+        $stmtAdresses = $pdo->prepare("SELECT * FROM client WHERE client_ID = :client_ID");
+        $stmtAdresses->execute([':client_ID' => $clientExistant['client_ID']]);
+        $adressesExistantes = $stmtAdresses->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 
 
@@ -30,13 +49,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$clientExistant) {
         $stmt = $pdo->prepare("INSERT INTO client (client_nom, client_prenom, client_tel, client_cp, client_ville, client_adresse1, client_adresse2, client_adresse3, utilisateur_ID) 
 		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$nom, $prenom, $tel, $adresse, $adresse2, $adresse3, $codepostal, $ville, $utilisateur]);
+        $stmt->execute([$nom, $prenom, $tel, $codepostal, $ville, $adresse, $adresse2, $adresse3, $utilisateur]);
         $clientID = $pdo->lastInsertId();
+    } else {
+        $stmt = $pdo->prepare("UPDATE client SET 
+        client_nom = ?, 
+        client_prenom = ?, 
+        client_tel = ?, 
+        client_cp = ?, 
+        client_ville = ?, 
+        client_adresse1 = ?, 
+        client_adresse2 = ?, 
+        client_adresse3 = ?");
+        $stmt->execute([$nom, $prenom, $tel, $codepostal, $ville, $adresse, $adresse2, $adresse3]);
     }
-
-
-    // Insertion de l'utilisateur dans la base de données (id utilisateur à ajouter plus tard)
-    
 
     header('Location: index.php'); // Redirection vers la page d'accueil
     exit();
@@ -47,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <main>
     <section>
 
-        <h1>Votre Commande <?= "Login: ".$utilisateur;?></h1>
+        <h1>Votre Commande</h1>
 
         <!-- Aperçu commande -->
 
