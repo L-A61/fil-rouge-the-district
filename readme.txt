@@ -7,7 +7,7 @@ Pour commencer à l'utiliser, vous devez suivre ces instructions:
 2 - Ouvrez xampp-control.exe et démarrez les modules Apache et MySQL
 3 - Lancez le script SQL thedistrict.sql présent dans le dossier sql
 4 - Lancez le serveur PHP sur la page index.php
-5 - Connectez-vous via la page connexion parmis l'un des trois login:
+5 - Connectez-vous via la page connexion parmi l'un des trois login:
 
 Login testAdmin:
 email: testAdmin@test.com

@@ -39,19 +39,19 @@ if (isset($_GET['delete'])) {
     exit;
 }
 
- // Gestion de l'upload de fichier
- if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-    $uploads_dir = 'assets/img/';
-    $tmp_name = $_FILES['photo']['tmp_name'];
-    $filename = uniqid() . '_' . basename($_FILES['photo']['name']);
-    $photo_path = $uploads_dir . $filename;
+ // Gestion de l'upload de fichier (déplacer vers produit select)
+//  if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+//     $uploads_dir = 'assets/img/';
+//     $tmp_name = $_FILES['photo']['tmp_name'];
+//     $filename = uniqid() . '_' . basename($_FILES['photo']['name']);
+//     $photo_path = $uploads_dir . $filename;
 
-    if (move_uploaded_file($tmp_name, $photo_path)) {
-        $photo = $filename;
-    } else {
-        $message = "Erreur lors de l'upload de la photo.";
-    }
-}
+//     if (move_uploaded_file($tmp_name, $photo_path)) {
+//         $photo = $filename;
+//     } else {
+//         $message = "Erreur lors de l'upload de la photo.";
+//     }
+// }
 ?>
 <div class="container my-5">
     <h1 class="mb-4">Nos produits</h1>

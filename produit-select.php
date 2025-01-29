@@ -43,24 +43,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
 // Si l'id du produit existe, on le met à jour. Sinon on le créer.
     if ($idProduit !== null) {
-        $sql = "UPDATE produit SET 
-        produit_image = '$image',
-        produit_libelle = '$libelle',
-        produit_prix = '$prix',
-        produit_description = '$description',
-        categorie_id = '$categorie'        
-        WHERE produit_ID = '$idProduit'";
-        $pdo->exec($sql);
+        $stmt = $pdo->prepare ("UPDATE produit SET 
+        produit_image = ?,
+        produit_libelle = ?,
+        produit_prix = ?,
+        produit_description = ?,
+        categorie_id = ?        
+        WHERE produit_ID = ?");
+        $stmt->execute([$image, $libelle, $prix, $description, $categorie, $idProduit]);
     } else {
-        $sql = "INSERT INTO produit (produit_image, produit_libelle, produit_prix, produit_description, categorie_id) 
-        VALUES ('$image', '$libelle', '$prix', '$description', '$categorie')";
-        $pdo->exec($sql);
+        $stmt = $pdo->prepare ("INSERT INTO produit (produit_image, produit_libelle, produit_prix, produit_description, categorie_id) 
+        VALUES (?, ?, ?, ?, ?)");
+        $stmt->execute([$image, $libelle, $prix, $description, $categorie]);
     }
 
     // Redirection vers la page produit.php après modification ou création
     header('Location: produits.php');
     exit;
 }
+
+// Gestion de l'upload de fichier
+if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+    $uploads_dir = 'assets/img/';
+    $tmp_name = $_FILES['photo']['tmp_name'];
+    $filename = uniqid() . '_' . basename($_FILES['photo']['name']);
+    $photo_path = $uploads_dir . $filename;
+
+    if (move_uploaded_file($tmp_name, $photo_path)) {
+        $photo = $filename;
+    } else {
+        $message = "Erreur lors de l'upload de la photo.";
+    }
+}
+
 ?>
 
 <!-- Formulaire qui indique si on modifie ou créer un produit selon si l'id récupéré existe-->
@@ -70,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <form method="post">
         <div class="mb-3">
             <label for="image" class="form-label">Image du produit: </label>
-            <input type="text" class="form-control" id="image" name="image" value="<?= $id ? htmlentities($image) : "" ?>">
+            <input type="file" class="form-control" id="image" name="image" value="<?= $id ? htmlentities($photo) : "" ?>">
 
             <label for="libelle" class="form-label">Nom du produit: </label>
             <input type="text" class="form-control" id="libelle" name="libelle" value="<?= $id ? htmlentities($libelle) : "" ?>" required>
