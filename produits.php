@@ -77,9 +77,7 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
                     <div class="card">
                         <div class="card-body">
 
-                            <img src="<?php echo htmlspecialchars($product['produit_image']); ?>"
-                                class="card-img-top"
-                                alt="<?php echo htmlspecialchars($product['produit_libelle']); ?>">
+                        <img src="./assets/img/<?= htmlentities($product['produit_image']) ?>" class="card-img" alt="">
                             <h3 class="card-title"><?= htmlentities($product['produit_libelle']) ?></h3>
                             <p class="card-text"><strong>Catégorie :</strong>
                                 <?= htmlentities($product['categorie_libelle']) ?></p>

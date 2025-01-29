@@ -129,7 +129,7 @@
                   $total += $produit['produit_prix'];
                 ?>
                   <div class="panier-item">
-                    <img src="<?php echo htmlspecialchars($produit['produit_image']); ?>" alt="<?php echo htmlspecialchars($produit['produit_libelle']); ?>" style="width: 50px; height: 50px; object-fit: cover;">
+                  <img src="./assets/img/<?= htmlentities($product['produit_image']) ?>" class="card-img" alt="" style="width: 50px; height: 50px; object-fit: cover;">
                     <div class="item-details">
                       <h6><?php echo htmlspecialchars($produit['produit_libelle']); ?></h6>
                       <p><?php echo htmlspecialchars($produit['produit_prix']); ?>€</p>
