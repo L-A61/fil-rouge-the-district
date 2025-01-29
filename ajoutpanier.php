@@ -28,4 +28,6 @@ if (isset($_POST['produit_id'])) {
     
 
 }
+echo '<meta http-equiv="refresh" content="0;url=produits.php">';
+            exit;
 ?>
