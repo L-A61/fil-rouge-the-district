@@ -7,6 +7,9 @@ if (!isset($_SESSION['utilisateur_ID'])) {
     header('Location: connexion.php');
 }
 
+// Placeholder Panier
+$panier = ["test","test2","test3","test4"];
+
 $clientExistant = null;
 $adressesExistantes = [];
 $erreurs = [];
@@ -62,6 +65,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         client_adresse2 = ?, 
         client_adresse3 = ?");
         $stmt->execute([$nom, $prenom, $tel, $codepostal, $ville, $adresse, $adresse2, $adresse3]);
+    }
+
+    foreach ($panier as $produit) {
+        $stmt = $pdo->prepare("INSERT INTO commande (commande_date, commande_libelle, client_ID) VALUES (NOW(), ?, ?)");
+        $stmt->execute([$produit, $clientID]);
+        $commandeID = $pdo->lastInsertId();
     }
 
     header('Location: index.php'); // Redirection vers la page d'accueil
