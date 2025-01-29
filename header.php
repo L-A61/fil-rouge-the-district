@@ -103,6 +103,7 @@
         <?php else: ?>
           <a href="connexion.php" class="position">Connexion</a>
         <?php endif; ?>
+        
 
 
         <!-- Bouton Panier et gestion de celui ci -->
@@ -111,7 +112,8 @@
           Mon Panier <?php echo isset($_SESSION['panier']) ? '(' . count($_SESSION['panier']) . ')' : '(0)'; ?>
         </button>
 
-        <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+
+        <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
           <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Description de la commande</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -124,13 +126,13 @@
                 <?php
                 $total = 0;
                 foreach ($_SESSION['panier'] as $produit) :
-                  $total += $produit['prix'];
+                  $total += $produit['produit_prix'];
                 ?>
                   <div class="panier-item">
-                    <img src="<?php echo htmlspecialchars($produit['image']); ?>" alt="<?php echo htmlspecialchars($produit['libelle']); ?>" style="width: 50px; height: 50px; object-fit: cover;">
+                    <img src="<?php echo htmlspecialchars($produit['produit_image']); ?>" alt="<?php echo htmlspecialchars($produit['produit_libelle']); ?>" style="width: 50px; height: 50px; object-fit: cover;">
                     <div class="item-details">
-                      <h6><?php echo htmlspecialchars($produit['libelle']); ?></h6>
-                      <p><?php echo htmlspecialchars($produit['prix']); ?>€</p>
+                      <h6><?php echo htmlspecialchars($produit['produit_libelle']); ?></h6>
+                      <p><?php echo htmlspecialchars($produit['produit_prix']); ?>€</p>
                     </div>
                   </div>
                 <?php endforeach; ?>
@@ -139,8 +141,30 @@
                   <h6>Total : <?php echo number_format($total, 2); ?>€</h6>
                 </div>
 
+                <form action="ajoutpanier.php" method="POST" style="display:inline;">
+                  <input type="hidden" name="action" value="decrementer">
+                  <input type="hidden" name="slug" value="<?= $produit['produit_libelle'] ?>">
+                  <button type="submit" class="btn btn-warning btn-sm">-</button>
+                </form>
+
+                <?= $produit['quantite'] ?>
+                <!-- Formulaire pour incrémenter -->
+                <form action="ajoutpanier.php" method="POST" style="display:inline;">
+                  <input type="hidden" name="action" value="incrementer">
+                  <input type="hidden" name="slug" value="<?= $produit['produit_libelle'] ?>">
+                  <button type="submit" class="btn btn-success btn-sm">+</button>
+                </form>
+
+                <!-- Formulaire pour supprimer -->
+                <form action="ajoutpanier.php" method="POST" style="display:inline;">
+                  <input type="hidden" name="action" value="supprimer">
+                  <input type="hidden" name="libelle" value="<?= $produit['produit_libelle'] ?>">
+                  <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                </form>
+
+
                 <div class="panier-actions">
-                  <a href="panier.php" class="btn btn-primary">Voir le panier</a>
+                  <a href="panier.php" class="btn btn-primary">Commander et payer</a>
                   <form action="viderpanier.php" method="post" style="display: inline;">
                     <button type="submit" class="btn btn-danger">Vider le panier</button>
                   </form>

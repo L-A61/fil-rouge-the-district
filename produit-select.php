@@ -35,10 +35,10 @@ if ($id !== '') {
 
 // Si la méthode POST s'active, on définit les différent variables pour les relier aux valeur de name dans le formulaire
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $image = $_POST['image'];
-    $libelle = $_POST['libelle'];
-    $prix = $_POST['prix'];
-    $description = $_POST['description'];
+    $image = $_POST['produit_image'];
+    $libelle = $_POST['produit_libelle'];
+    $prix = $_POST['produit_prix'];
+    $description = $_POST['produit_description'];
     $categorie = $_POST['categorie'];
     
 // Si l'id du produit existe, on le met à jour. Sinon on le créer.
@@ -92,9 +92,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <label for="description" class="form-label">Description du produit: </label>
             <input type="text" class="form-control" id="description" name="description" value="<?= $id ? htmlentities($description) : "" ?>" required>
-            
+
         </div>
-        <button type="submit" class="btn btn-warning"><?= $id ? "Mettre à jour" : "Créer" ?></button>
+        <!-- Si l'id du produit existe, on met une valeur cachée pour l'id dans le formulaire pour que le formulaire ne se recharge pas lors du retour à la page produits.php-->
+        <input type="hidden" name="id" value="<?= $idValue ?>">
+    
+                
+                 
+               <button type="submit" class="btn btn-warning"><?= $id ? "Mettre à jour" : "Créer" ?></button>
         <a href="produits.php" class="btn btn-dark">Retour</a>
     </form>
 </div>

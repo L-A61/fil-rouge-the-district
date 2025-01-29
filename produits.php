@@ -39,8 +39,8 @@ if (isset($_GET['delete'])) {
     exit;
 }
 
- // Gestion de l'upload de fichier
- if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+// Gestion de l'upload de fichier
+if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
     $uploads_dir = 'assets/img/';
     $tmp_name = $_FILES['photo']['tmp_name'];
     $filename = uniqid() . '_' . basename($_FILES['photo']['name']);
@@ -64,9 +64,9 @@ if (isset($_GET['delete'])) {
         </div>
     </form>
     <!--Bouton Ajouter un produit si l'utilisateur est un commercial ou admin -->
-    <?php if($isCommercialOrAdmin):?>
-    <a href="produit-select.php" class="btn btn-dark">Ajouter un produit</a>
-    <?php endif;?>
+    <?php if ($isCommercialOrAdmin): ?>
+        <a href="produit-select.php" class="btn btn-dark">Ajouter un produit</a>
+    <?php endif; ?>
 
     <a href="categorie-menu.php" class="btn btn-info">Filtrer par catégorie</a>
     <!-- Liste des produits -->
@@ -76,20 +76,31 @@ if (isset($_GET['delete'])) {
                 <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-body">
-                            <img src="./assets/img/<?= htmlentities($product['produit_image']) ?>" class="card-img" alt="">
+
+                            <img src="<?php echo htmlspecialchars($product['produit_image']); ?>"
+                                class="card-img-top"
+                                alt="<?php echo htmlspecialchars($product['produit_libelle']); ?>">
                             <h3 class="card-title"><?= htmlentities($product['produit_libelle']) ?></h3>
                             <p class="card-text"><strong>Catégorie :</strong>
                                 <?= htmlentities($product['categorie_libelle']) ?></p>
                             <p class="card-text"><strong>Prix:</strong>
-                                <?= htmlentities($product['produit_prix']) ?> €</p>
-                                <p class="card-text"><strong>Description:</strong>
+                                <?= number_format($product['produit_prix'], 2) ?> €</p>
+                            <p class="card-text"><strong>Description:</strong>
                                 <?= htmlentities($product['produit_description']) ?></p>
+
+
+                            <!-- Bouton Ajouter au panier -->
+                            <form method="POST" action="ajoutpanier.php">
+                                <input type="hidden" name="produit_id" value="<?php echo $product['produit_ID']; ?>">
+                                <button type="submit" class="btn btn-primary">Ajouter au panier</button>
+                            </form>
+
                             <!-- Boutons Modifier et Supprimer si l'utilisateur est un admin ou commercial -->
-                            <?php if($isCommercialOrAdmin):?>
-                            <a class="btn btn-success" href="produit-select.php?modify=<?= htmlentities($product['produit_ID']) ?>">Modifier</a>
-                            <a class="btn btn-danger" href="produits.php?delete=<?= htmlentities($product['produit_ID']) ?>"
-                                onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">Supprimer</a>
-                            <?php endif;?>
+                            <?php if ($isCommercialOrAdmin): ?>
+                                <a class="btn btn-success" href="produit-select.php?modify=<?= htmlentities($product['produit_ID']) ?>">Modifier</a>
+                                <a class="btn btn-danger" href="produits.php?delete=<?= htmlentities($product['produit_ID']) ?>"
+                                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">Supprimer</a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
