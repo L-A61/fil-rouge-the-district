@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mar. 28 jan. 2025 à 16:28
+-- Généré le : mer. 29 jan. 2025 à 15:32
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `client` (
   `utilisateur_ID` int(11) NOT NULL,
   PRIMARY KEY (`client_ID`),
   UNIQUE KEY `utilisateur_ID` (`utilisateur_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `commande` (
   `client_ID` int(11) NOT NULL,
   PRIMARY KEY (`commande_ID`),
   KEY `client_ID` (`client_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `produit` (
   `categorie_ID` int(11) NOT NULL,
   PRIMARY KEY (`produit_ID`),
   KEY `categorie_ID` (`categorie_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `produit`
@@ -202,15 +202,16 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `type_ID` int(11) NOT NULL,
   PRIMARY KEY (`utilisateur_ID`),
   KEY `type_ID` (`type_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `utilisateur`
 --
 
 INSERT INTO `utilisateur` (`utilisateur_ID`, `utilisateur_pseudo`, `utilisateur_email`, `utilisateur_password`, `type_ID`) VALUES
-(9, 'axel', 'axe.lou@gmail.com', '$2y$10$Ypvi9meulWUmNNx2euJogOoa3sl8EuoElPFm1xnd8Di', 1),
-(11, 'test', 'test@test.com', '$2y$10$Ie6HVNXxbTu4rS7imv06vOP/CptFlD2Pe1ZMs29LXqtLUyEcQtmM.', 1);
+(1, 'testAdmin', 'testAdmin@test.com', '$2y$10$vebp.l.r47lvCQbxgK/jx.gR1IBhj5yphYNQ43I459NmOEQZIBtyO', 1),
+(2, 'testClient', 'testClient@test.com', '$2y$10$GgX1S.nFu5p8rEEIhHBtRu27Cc0Sl4Dwkk/m/6qYyiKrzyMLHdJI2', 2),
+(3, 'testCommercial', 'testCommercial@test.com', '$2y$10$kifzwjRDY1N3savszLOkNuVIVDUXTbsbz7WQzV83sLfppyCbyflta', 3);
 
 --
 -- Contraintes pour les tables déchargées

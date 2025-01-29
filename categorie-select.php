@@ -1,6 +1,11 @@
 <?php
 include("header.php");
 
+if (!$isCommercialOrAdmin) {
+    header("Location: index.php");
+    exit;
+}
+
 // Déclaration des variables
 $id = isset($_GET['modify']) ? $_GET['modify'] : '';
 $libelle = $idValue = '';

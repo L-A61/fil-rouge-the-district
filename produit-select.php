@@ -1,6 +1,11 @@
 <?php
 include("header.php");
 
+if (!$isCommercialOrAdmin) {
+    header("Location: index.php");
+    exit;
+}
+
 // Vérifie si l'id existe dans l'URL, modify si c'est le cas
 $id = isset($_GET['modify']) ? $_GET['modify'] : '';
 $libelle = $idValue = '';

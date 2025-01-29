@@ -38,43 +38,61 @@ if ($utilisateur) {
 // Récupération des informations du client
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Récupération des données du formulaire en méthode POST
-    $nom = $_POST['nom'] ?? null;
-    $prenom = $_POST['prenom'] ?? null;
-    $tel = $_POST['tel'] ?? null;
-    $adresse = $_POST['adresse'] ?? null;
-    $adresse2 = $_POST['adresse2'] ?? null;
-    $adresse3 = $_POST['adresse3'] ?? null;
-    $codepostal = $_POST['codepostal'] ?? null;
-    $ville = $_POST['ville'] ?? null;
+    $nom = $_POST['nom'];
+    $prenom = $_POST['prenom'];
+    $tel = $_POST['tel'];
+    $adresse = $_POST['adresse'];
+    $adresse2 = $_POST['adresse2'];
+    $adresse3 = $_POST['adresse3'];
+    $codepostal = $_POST['codepostal'];
+    $ville = $_POST['ville'];
 
-    $commandeID = 0;
-
-    if (!$clientExistant) {
-        $stmt = $pdo->prepare("INSERT INTO client (client_nom, client_prenom, client_tel, client_cp, client_ville, client_adresse1, client_adresse2, client_adresse3, utilisateur_ID) 
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$nom, $prenom, $tel, $codepostal, $ville, $adresse, $adresse2, $adresse3, $utilisateur]);
-        $clientID = $pdo->lastInsertId();
-    } else {
-        $stmt = $pdo->prepare("UPDATE client SET 
-        client_nom = ?, 
-        client_prenom = ?, 
-        client_tel = ?, 
-        client_cp = ?, 
-        client_ville = ?, 
-        client_adresse1 = ?, 
-        client_adresse2 = ?, 
-        client_adresse3 = ?");
-        $stmt->execute([$nom, $prenom, $tel, $codepostal, $ville, $adresse, $adresse2, $adresse3]);
+    if (!preg_match('/[A-zÀ-ú0-9]{3,}/', $nom)) {
+        $erreurs[] = "Le nom doit au moins faire 3 caractères";
+    } 
+    
+    if (!preg_match('/[A-zÀ-ú0-9]{3,}/', $prenom)) {
+        $erreurs[] = "Le prénom doit au moins faire 3 caractères";
+    } 
+    
+    if (!preg_match('/^\+33\d{10}$/', $tel)) {
+        $erreurs[] = "Le téléphone doit commencer par +33 et contenir 10 chiffres";
+    } 
+    
+    if (!preg_match('/^\d{5}$/',$codepostal)) {
+        $erreurs[] = "Le code postal doit contenir exactement 5 chiffres";
     }
 
-    foreach ($panier as $produit) {
-        $stmt = $pdo->prepare("INSERT INTO commande (commande_date, commande_libelle, client_ID) VALUES (NOW(), ?, ?)");
-        $stmt->execute([$produit, $clientID]);
-        $commandeID = $pdo->lastInsertId();
-    }
 
-    header('Location: index.php'); // Redirection vers la page d'accueil
-    exit();
+    if (empty($erreurs)) {
+        if (!$clientExistant) {
+            $stmt = $pdo->prepare("INSERT INTO client (client_nom, client_prenom, client_tel, client_cp, client_ville, client_adresse1, client_adresse2, client_adresse3, utilisateur_ID) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$nom, $prenom, $tel, $codepostal, $ville, $adresse, $adresse2, $adresse3, $utilisateur]);
+            $clientID = $pdo->lastInsertId();
+        } else {
+            $stmt = $pdo->prepare("UPDATE client SET 
+            client_nom = ?, 
+            client_prenom = ?, 
+            client_tel = ?, 
+            client_cp = ?, 
+            client_ville = ?, 
+            client_adresse1 = ?, 
+            client_adresse2 = ?, 
+            client_adresse3 = ?");
+            $stmt->execute([$nom, $prenom, $tel, $codepostal, $ville, $adresse, $adresse2, $adresse3]);
+        }
+    
+        $commandeID = 0;
+        foreach ($panier as $produit) {
+            $stmt = $pdo->prepare("INSERT INTO commande (commande_date, commande_libelle, client_ID) VALUES (NOW(), ?, ?)");
+            $stmt->execute([$produit, $clientID]);
+            $commandeID = $pdo->lastInsertId();
+        }
+    
+        header('Location: index.php'); // Redirection vers la page d'accueil
+        exit();
+    }
 }
 
 ?>
@@ -86,30 +104,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- Aperçu commande -->
 
+        <?php if (!empty($erreurs)):?>
+            <div class="alert alert-warning">
+                <ul>
+                    <?php foreach ($erreurs as $erreur):?>
+                        <li><?= htmlentities($erreur)?></li>
+                    <?php endforeach?>
+                </ul>
+            </div>
+        <?php endif;?>
+
         <!-- Formulaire commande à relier avec la table client du bdd -->
         <form action="commande.php" method="post">
 
             <article>
-                <label for="nom">Nom:</label>
-                <input id="nom" type="text" name="nom">
+                <label for="nom">*Nom:</label>
+                <input id="nom" type="text" name="nom" required>
             </article>
 
             <article>
-                <label for="prenom">Prénom:</label>
-                <input id="prenom" type="text" name="prenom">
+                <label for="prenom">*Prénom:</label>
+                <input id="prenom" type="text" name="prenom" required>
             </article>
 
             <article>
-                <label for="tel">Téléphone:</label>
-                <input id="tel" type="text" name="tel">
+                <label for="tel">*Téléphone:</label>
+                <input id="tel" type="text" name="tel" required>
             </article>
 
     </section>
 
     <section>
 
-        <label for="adresse">Adresse:</label>
-        <input id="adresse" type="text" name="adresse">
+        <label for="adresse">*Adresse:</label>
+        <input id="adresse" type="text" name="adresse" required>
 
     </section>
 
@@ -129,15 +157,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <section>
 
-        <label for="codepostal">Code Postal:</label>
-        <input id="codepostal" type="text" name="codepostal">
+        <label for="codepostal">*Code Postal:</label>
+        <input id="codepostal" type="text" name="codepostal" required>
 
     </section>
 
     <section>
 
-        <label for="ville">Ville:</label>
-        <input id="ville" type="text" name="ville">
+        <label for="ville">*Ville:</label>
+        <input id="ville" type="text" name="ville" required>
 
     </section>
 
