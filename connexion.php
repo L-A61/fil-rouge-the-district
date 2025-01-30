@@ -1,5 +1,5 @@
 <?php
-include './header.php';
+include 'header.php';
 
 // Véfifier si l'utilisateur est connecté
 if (isset($_SESSION['utilisateur_ID'])) {

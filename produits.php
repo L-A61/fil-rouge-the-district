@@ -1,5 +1,5 @@
 <?php
-include './header.php';
+include 'header.php';
 ?>
 <?php
 
@@ -102,5 +102,5 @@ if (isset($_GET['delete'])) {
     </div>
 </div>
 <?php
-include './footer.php';
+include 'footer.php';
 ?>

@@ -1,25 +1,19 @@
 <?php
-include './header.php';
+include 'header.php';
 
-$utilisateur = $_SESSION['utilisateur_ID'] ?? null;
+// Récupération de l'ID dans la variable utilisateur s'il existe
+$utilisateur = $_SESSION['utilisateur_ID'];
 
+// Redirection vers 
 if (!isset($_SESSION['utilisateur_ID'])) {
     header('Location: connexion.php');
 }
 
 // Placeholder Panier
-$panier = ["test","test2","test3","test4"];
+$panier = ["test", "test2", "test3"];
 
 $clientExistant = null;
-$adressesExistantes = [];
 $erreurs = [];
-$success = "";
-
-function insererAdresse($pdo, $adresse1, $adresse2, $adresse3, $codepostal, $ville, $clientID) {
-    $stmt = $pdo->prepare('INSERT INTO client (client_adresse1, client_adresse2, client_adresse3, client_cp, client_ville, client_ID)');
-    $stmt->execute([$adresse1, $adresse2, $adresse3, $codepostal, $ville, $clientID]);
-    return $pdo->lastInsertId();
-}
 
 if ($utilisateur) {
     $stmtClient = $pdo->prepare("SELECT * FROM client WHERE utilisateur_ID = :utilisateur_ID");
@@ -79,8 +73,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             client_ville = ?, 
             client_adresse1 = ?, 
             client_adresse2 = ?, 
-            client_adresse3 = ?");
-            $stmt->execute([$nom, $prenom, $tel, $codepostal, $ville, $adresse, $adresse2, $adresse3]);
+            client_adresse3 = ?
+            WHERE client_ID = ?");
+            $stmt->execute([$nom, $prenom, $tel, $codepostal, $ville, $adresse, $adresse2, $adresse3, $clientExistant['client_ID']]);
         }
     
         $commandeID = 0;
@@ -118,54 +113,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form action="commande.php" method="post">
 
             <article>
-                <label for="nom">*Nom:</label>
-                <input id="nom" type="text" name="nom" required>
+                <label for="nom">Nom *</label>
+                <input id="nom" type="text" name="nom" value="<?= $clientExistant ? htmlentities($clientExistant["client_nom"]) : "" ?>" required>
             </article>
 
             <article>
-                <label for="prenom">*Prénom:</label>
-                <input id="prenom" type="text" name="prenom" required>
+                <label for="prenom">Prénom *</label>
+                <input id="prenom" type="text" name="prenom" value="<?= $clientExistant ? htmlentities($clientExistant["client_prenom"]) : "" ?>" required>
             </article>
 
             <article>
-                <label for="tel">*Téléphone:</label>
-                <input id="tel" type="text" name="tel" required>
+                <label for="tel">*Téléphone *</label>
+                <input id="tel" type="text" name="tel" value="<?= $clientExistant ? htmlentities($clientExistant["client_tel"]) : "" ?>" required>
             </article>
 
     </section>
 
     <section>
 
-        <label for="adresse">*Adresse:</label>
-        <input id="adresse" type="text" name="adresse" required>
+        <label for="adresse">Adresse *</label>
+        <input id="adresse" type="text" name="adresse" value="<?= $clientExistant ? htmlentities($clientExistant["client_adresse1"]) : "" ?>" required>
 
     </section>
 
     <section>
 
-        <label for="adresse2">Adresse 2:</label>
-        <input id="adresse2" type="text" name="adresse2">
+        <label for="adresse2">Adresse 2</label>
+        <input id="adresse2" type="text" name="adresse2" value="<?= $clientExistant ? htmlentities($clientExistant["client_adresse2"]) : "" ?>">
 
     </section>
 
     <section>
 
-        <label for="adresse3">Adresse 3:</label>
-        <input id="adresse3" type="text" name="adresse3">
+        <label for="adresse3">Adresse 3</label>
+        <input id="adresse3" type="text" name="adresse3" value="<?= $clientExistant ? htmlentities($clientExistant["client_adresse3"]) : "" ?>">
 
     </section>
 
     <section>
 
-        <label for="codepostal">*Code Postal:</label>
-        <input id="codepostal" type="text" name="codepostal" required>
+        <label for="codepostal">Code Postal *</label>
+        <input id="codepostal" type="text" name="codepostal" value="<?= $clientExistant ? htmlentities($clientExistant["client_cp"]) : "" ?>" required>
 
     </section>
 
     <section>
 
-        <label for="ville">*Ville:</label>
-        <input id="ville" type="text" name="ville" required>
+        <label for="ville">Ville *</label>
+        <input id="ville" type="text" name="ville" value="<?= $clientExistant ? htmlentities($clientExistant["client_ville"]) : "" ?>" required>
 
     </section>
 
