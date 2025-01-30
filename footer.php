@@ -28,7 +28,7 @@
 
     <!-- Section 4 : Réseaux sociaux -->
     <div class="rs">
-      <h5 style="margin-bottom: 10px;">Suivez-nous</h5>
+      <h5 style="margin-bottom: 5px;">Suivez-nous</h5>
       <div style="display: flex">
         <a href="https://www.facebook.com/thedistrict" style="color: white; margin-right: 10px;" target="_blank">
           <img src="./assets//img/fb.webp" alt="" class="taillef"></a>
