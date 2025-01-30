@@ -46,18 +46,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 
-	<h1>Inscription</h1>
+    <div class="login-box">
+	<h1 class="title-connexion">Inscription</h1>
 	<?php if (isset($error_message)) : ?>
 		<p><?php echo $error_message; ?></p>
+	</div>
 	<?php endif; ?>
-	<form method="POST">
-		<label for="login">Votre Login :</label>
-		<input type="login" id="login" name="login" required><br>
-        <label for="email">Email :</label>
-		<input type="email" id="email" name="email" required><br>
-		<label for="password">Mot de passe :</label>
-		<input type="password" id="password" name="password" required><br>
-		<input type="submit" value="S'inscrire">
+	<form method="POST" class="form-connexion">
+		<div class="text-box">
+		<label for="login" class="insc">Votre Login :</label>
+		<input type="login" id="login" name="login" required class="input-connexion" placeholder=""><br>
+		</div>
+		<div class="text-box">
+        <label for="email" class="insc">Email :</label>
+		<input type="email" id="email" name="email" required class="input-connexion"><br>
+		</div>
+		<div class="text-box">
+		<label for="password" class="insc">Mot de passe :</label>
+		<input type="password" id="password" name="password" required class="input-connexion"><br>
+		</div>
+		<br>
+		<input type="submit" value="S'inscrire" class="btn-connexion">
 	</form>
-	<p>Déjà inscrit ? <a href="login.php">Se connecter</a></p>
+	<p class="insc">Déjà inscrit ? <a href="login.php">Se connecter</a></p>
+	</div>
+
 <?php include 'footer.php' ?>

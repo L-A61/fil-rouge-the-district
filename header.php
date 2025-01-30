@@ -103,7 +103,7 @@
         <?php else: ?>
           <a href="connexion.php" class="position">Connexion</a>
         <?php endif; ?>
-        
+
 
 
         <!-- Bouton Panier et gestion de celui ci -->
@@ -118,6 +118,7 @@
             <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Description de la commande</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
           </div>
+
           <div class="offcanvas-body">
             <?php if (!isset($_SESSION['panier']) || empty($_SESSION['panier'])) : ?>
               <p>Votre panier est vide</p>
@@ -126,56 +127,67 @@
                 <?php
                 $total = 0;
                 foreach ($_SESSION['panier'] as $produit) :
-                  $total += $produit['produit_prix'];
+                  $sous_total = $produit['produit_prix'] * $produit['quantite'];
+                  $total += $sous_total;
                 ?>
-                  <div class="panier-item">
-                  <img src="./assets/img/<?= htmlentities($product['produit_image']) ?>" class="card-img" alt="" style="width: 50px; height: 50px; object-fit: cover;">
-                    <div class="item-details">
-                      <h6><?php echo htmlspecialchars($produit['produit_libelle']); ?></h6>
-                      <p><?php echo htmlspecialchars($produit['produit_prix']); ?>€</p>
+                  <div class="panier-item mb-3 border-bottom pb-2">
+                    <div class="d-flex align-items-center">
+                      <img src="./assets/img/<?= htmlspecialchars($produit['produit_image']) ?>"
+                        class="card-img me-2"
+                        alt="<?= htmlspecialchars($produit['produit_libelle']) ?>"
+                        style="width: 50px; height: 50px; object-fit: cover;">
+                      <div class="item-details flex-grow-1">
+                        <h6 class="mb-1"><?= htmlspecialchars($produit['produit_libelle']) ?></h6>
+                        <p class="mb-1"><?= number_format($produit['produit_prix'], 2) ?>€ x <?= $produit['quantite'] ?></p>
+                        <p class="mb-1">Sous-total: <?= number_format($sous_total, 2) ?>€</p>
+                      </div>
+                    </div>
+
+                    <div class="quantity-controls mt-2 d-flex align-items-center">
+                      <form action="ajoutpanier.php" method="POST" class="d-inline-block">
+                        <input type="hidden" name="action" value="decrementer">
+                        <input type="hidden" name="produit_id" value="<?= $produit['produit_ID'] ?>">
+                        <button type="submit" class="btn btn-warning btn-sm" id="remove">-</button>
+                      </form>
+
+                      <span class="mx-2"><?= $produit['quantite'] ?></span>
+
+                      <form action="ajoutpanier.php" method="POST" class="d-inline-block">
+                        <input type="hidden" name="action" value="incrementer">
+                        <input type="hidden" name="produit_id" value="<?= $produit['produit_ID'] ?>">
+                        <button type="submit" class="btn btn-success btn-sm" id="add">+</button>
+                      </form>
+
+                      <form action="ajoutpanier.php" method="POST" class="d-inline-block ms-2" >
+                        <input type="hidden" name="action" value="supprimer">
+                        <input type="hidden" name="produit_id" value="<?= $produit['produit_ID'] ?>">
+                        <button type="submit" class="btn btn-danger btn-sm" id="delete">
+                          <i class="bi bi-trash">supprimer</i>
+                        </button>
+                      </form>
+                      
+
                     </div>
                   </div>
                 <?php endforeach; ?>
 
-                <div class="total-section">
-                  <h6>Total : <?php echo number_format($total, 2); ?>€</h6>
+                <div class="total-section mt-3">
+                  <h6 class="fw-bold">Total : <?= number_format($total, 2) ?>€</h6>
                 </div>
 
-                <form action="ajoutpanier.php" method="POST" style="display:inline;">
-                  <input type="hidden" name="action" value="decrementer">
-                  <input type="hidden" name="slug" value="<?= $produit['produit_libelle'] ?>">
-                  <button type="submit" class="btn btn-warning btn-sm">-</button>
-                </form>
-
-                <?= $produit['quantite'] ?>
-                <!-- Formulaire pour incrémenter -->
-                <form action="ajoutpanier.php" method="POST" style="display:inline;">
-                  <input type="hidden" name="action" value="incrementer">
-                  <input type="hidden" name="slug" value="<?= $produit['produit_libelle'] ?>">
-                  <button type="submit" class="btn btn-success btn-sm">+</button>
-                </form>
-
-                <!-- Formulaire pour supprimer -->
-                <form action="ajoutpanier.php" method="POST" style="display:inline;">
-                  <input type="hidden" name="action" value="supprimer">
-                  <input type="hidden" name="libelle" value="<?= $produit['produit_libelle'] ?>">
-                  <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
-                </form>
-
-
-                <div class="panier-actions">
+                <div class="panier-actions mt-3">
                   <a href="panier.php" class="btn btn-primary">Commander et payer</a>
-                  <form action="viderpanier.php" method="post" style="display: inline;">
+                  <!-- vider le panier -->
+                  <form action="viderpanier.php" method="post" class="d-inline-block">
                     <button type="submit" class="btn btn-danger">Vider le panier</button>
                   </form>
                 </div>
               </div>
             <?php endif; ?>
           </div>
+
+
         </div>
-
-
-      </div>
       </div>
       </div>
     </nav>

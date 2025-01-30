@@ -88,10 +88,11 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
 
 
                             <!-- Bouton Ajouter au panier -->
-                            <form method="POST" action="ajoutpanier.php">
-                                <input type="hidden" name="produit_id" value="<?php echo $product['produit_ID']; ?>">
-                                <button type="submit" class="btn btn-primary">Ajouter au panier</button>
-                            </form>
+                            <form action="ajoutpanier.php" method="POST" data-add-to-cart>
+    <input type="hidden" name="action" value="ajouter">
+    <input type="hidden" name="produit_id" value="<?= htmlspecialchars($product['produit_ID']) ?>">
+    <button type="submit" class="btn btn-primary">Ajouter au panier</button>
+</form>
 
                             <!-- Boutons Modifier et Supprimer si l'utilisateur est un admin ou commercial -->
                             <?php if ($isCommercialOrAdmin): ?>
