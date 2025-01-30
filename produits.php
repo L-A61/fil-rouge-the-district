@@ -1,5 +1,5 @@
 <?php
-include './header.php';
+include 'header.php';
 ?>
 <?php
 
@@ -51,7 +51,7 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
 //     } else {
 //         $message = "Erreur lors de l'upload de la photo.";
 //     }
-// }
+}
 ?>
 <div class="container my-5">
     <h1 class="mb-4">Nos produits</h1>
@@ -112,5 +112,5 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
     </div>
 </div>
 <?php
-include './footer.php';
+include 'footer.php';
 ?>
