@@ -4,22 +4,27 @@ include 'header.php';
 // Récupération de l'ID dans la variable utilisateur s'il existe
 $utilisateur = $_SESSION['utilisateur_ID'];
 
-// Redirection vers 
+// Redirection vers connexion si l'ID d'utilisateur n'est pas reconnu
 if (!isset($_SESSION['utilisateur_ID'])) {
     header('Location: connexion.php');
 }
 
-// Placeholder Panier
+// Placeholder Panier à modifier par la récupération du panier de la session
 $panier = ["test", "test2", "test3"];
 
+// On assume au départ que le client n'existe pas dans la bdd actuellement
 $clientExistant = null;
+
+// Définition d'un tableau d'erreurs vide au départ
 $erreurs = [];
 
+// Si l'utilisateur existe, préparation d'une requête SQL pour retrouver l'id de l'utilisateur dans la bdd.
 if ($utilisateur) {
     $stmtClient = $pdo->prepare("SELECT * FROM client WHERE utilisateur_ID = :utilisateur_ID");
     $stmtClient->execute([':utilisateur_ID' => $_SESSION['utilisateur_ID']]);
     $clientExistant = $stmtClient->fetch(PDO::FETCH_ASSOC);
 
+    // Si l'utilisateur est déjà un client, on cherche l'id du client dans la bdd
     if ($clientExistant) {
         $clientID = $clientExistant["client_ID"];
         $stmtAdresses = $pdo->prepare("SELECT * FROM client WHERE client_ID = :client_ID");
@@ -41,29 +46,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $codepostal = $_POST['codepostal'];
     $ville = $_POST['ville'];
 
+    // Vérification avec expression régulière que les champs correspondent aux exigences. 
+    //Ajout de message d'erreur dans le tableau erreurs si les données correspondent pas.
     if (!preg_match('/[A-zÀ-ú0-9]{3,}/', $nom)) {
         $erreurs[] = "Le nom doit au moins faire 3 caractères";
     } 
-    
     if (!preg_match('/[A-zÀ-ú0-9]{3,}/', $prenom)) {
         $erreurs[] = "Le prénom doit au moins faire 3 caractères";
     } 
-    
     if (!preg_match('/^\+33\d{10}$/', $tel)) {
         $erreurs[] = "Le téléphone doit commencer par +33 et contenir 10 chiffres";
     } 
-    
     if (!preg_match('/^\d{5}$/',$codepostal)) {
         $erreurs[] = "Le code postal doit contenir exactement 5 chiffres";
     }
 
-
+    // Quand aucun erreur ne se trouve dans le tableau erreurs, on vérifie si le client n'existe pas.
     if (empty($erreurs)) {
+        // Si le client n'existe pas, on insère les données dans la bdd sur une nouvelle ligne en ajoutant un ID au client
         if (!$clientExistant) {
             $stmt = $pdo->prepare("INSERT INTO client (client_nom, client_prenom, client_tel, client_cp, client_ville, client_adresse1, client_adresse2, client_adresse3, utilisateur_ID) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([$nom, $prenom, $tel, $codepostal, $ville, $adresse, $adresse2, $adresse3, $utilisateur]);
             $clientID = $pdo->lastInsertId();
+        // Si le client existe, on met à jours les données dans la bdd selon l'ID du client
         } else {
             $stmt = $pdo->prepare("UPDATE client SET 
             client_nom = ?, 
@@ -77,15 +83,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             WHERE client_ID = ?");
             $stmt->execute([$nom, $prenom, $tel, $codepostal, $ville, $adresse, $adresse2, $adresse3, $clientExistant['client_ID']]);
         }
-    
-        $commandeID = 0;
+        
+        // Pour chaque élément dans le panier, on insère une nouvelle ligne dans la bdd avec la date, le nom du produit et l'ID du client
         foreach ($panier as $produit) {
             $stmt = $pdo->prepare("INSERT INTO commande (commande_date, commande_libelle, client_ID) VALUES (NOW(), ?, ?)");
             $stmt->execute([$produit, $clientID]);
             $commandeID = $pdo->lastInsertId();
         }
-    
-        header('Location: index.php'); // Redirection vers la page d'accueil
+        
+        // Redirection vers la page d'accueil après comamande
+        header('Location: index.php'); 
         exit();
     }
 }
@@ -99,6 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- Aperçu commande -->
 
+        <!-- Si le tableau erreur n'est pas vide, on liste les messages d'erreurs -->
         <?php if (!empty($erreurs)):?>
             <div class="alert alert-warning">
                 <ul>
@@ -110,6 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif;?>
 
         <!-- Formulaire commande à relier avec la table client du bdd -->
+        <!-- Chaque input regarde si le client existe, récupèrant les informations du client dans la bdd comme valeur -->
         <form action="commande.php" method="post">
 
             <article>
