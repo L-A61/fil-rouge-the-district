@@ -196,7 +196,7 @@
                 </div>
 
                 <div class="panier-actions mt-3">
-                  <a href="panier.php" class="btn btn-primary">Commander et payer</a>
+                  <a href="commande.php" class="btn btn-primary">Commander et payer</a>
                   <!-- vider le panier -->
                   <form action="viderpanier.php" method="post" class="d-inline-block">
                     <button type="submit" class="btn btn-danger">Vider le panier</button>

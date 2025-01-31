@@ -9,8 +9,19 @@ if (!isset($_SESSION['utilisateur_ID'])) {
     header('Location: connexion.php');
 }
 
-// Placeholder Panier à modifier par la récupération du panier de la session
-$panier = ["test", "test2", "test3"];
+// Récupération du panier
+$panier_session = $_SESSION['panier'];
+
+// Tableau pour énumérer le nom des produits dans le panier
+$panier = [];
+
+// Ajoute le libelle de chaque produit du panier et son prix dans la variable panier.
+foreach ($panier_session as $produit) {
+    $panier[] = $produit['produit_libelle'];
+}
+
+// var_dump($panier);
+
 
 // On assume au départ que le client n'existe pas dans la bdd actuellement
 $clientExistant = null;
@@ -91,9 +102,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $commandeID = $pdo->lastInsertId();
         }
         
-        // Redirection vers la page d'accueil après comamande
-        header('Location: index.php'); 
-        exit();
+        // Suppression du panier et redirection vers la page d'accueil après comamande
+        unset($_SESSION['panier']);
+        echo '<meta http-equiv="refresh" content="0;url=index.php">';
+        exit;
     }
 }
 
@@ -105,6 +117,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <h1>Votre Commande</h1>
 
         <!-- Aperçu commande -->
+        <ul>
+        <?php foreach($panier_session as $panier):?>
+            <li><?= htmlentities($panier['quantite'])?> <?= htmlentities($panier['produit_libelle'])?>: <?= number_format(htmlentities($panier['produit_prix']) * htmlentities($panier['quantite']), 2)?>€</li>
+        <?php endforeach;?>
+        </ul>
 
         <!-- Si le tableau erreur n'est pas vide, on liste les messages d'erreurs -->
         <?php if (!empty($erreurs)):?>
@@ -172,10 +189,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input id="ville" type="text" name="ville" value="<?= $clientExistant ? htmlentities($clientExistant["client_ville"]) : "" ?>" required>
 
     </section>
+    
+    <p>TOTAL: <?= number_format(htmlentities($total), 2)?>€</p>
 
     <button type="submit">Envoyer</button>
 
     </form>
+
+    
 </main>
 
 <?php
