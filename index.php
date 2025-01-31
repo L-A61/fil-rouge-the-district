@@ -1,5 +1,4 @@
-
-<?php    
+<?php
 include 'header.php';
 
 ?>
@@ -12,8 +11,8 @@ include 'header.php';
   <div class="carousel-inner">
     <div class="carousel-item active">
 
-    <img src="./assets/img/carroussel1.jpeg" class="d-block w-100" alt="..."style="margin: 5% 4% 5% 4%; height : 800px;">
-      
+      <img src="./assets/img/carroussel1.jpeg" class="d-block w-100" alt="..." style="margin: 5% 4% 5% 4%; height : 800px;">
+
       <div class="carousel-caption d-none d-md-block">
         <h5>Le Goût de l'exellence</h5>
         <p>Some representative placeholder content for the first slide.</p>
@@ -46,4 +45,3 @@ include 'header.php';
 <?php
 include 'footer.php';
 ?>
-
