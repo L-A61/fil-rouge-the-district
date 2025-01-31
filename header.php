@@ -106,10 +106,30 @@
 
 
 
+        <!-- Bouton Mon Compte qui apparait si connécté -->
+        <?php if ($username): ?>
+    <button class="position">
+        <a href="compte.php">Mon Compte</a>
+    </button>
+<?php endif; ?>
+
+
+
+
+
+
         <!-- Bouton Panier et gestion de celui ci -->
 
+        <?php
+        $nombreTotal = 0;
+        if (isset($_SESSION['panier'])) {
+          foreach ($_SESSION['panier'] as $item) {
+            $nombreTotal += $item['quantite'];
+          }
+        }
+        ?>
         <button class="position1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
-          Mon Panier <?php echo isset($_SESSION['panier']) ? '(' . count($_SESSION['panier']) . ')' : '(0)'; ?>
+          Mon Panier (<?php echo $nombreTotal; ?>)
         </button>
 
 
@@ -158,14 +178,14 @@
                         <button type="submit" class="btn btn-success btn-sm" id="add">+</button>
                       </form>
 
-                      <form action="ajoutpanier.php" method="POST" class="d-inline-block ms-2" >
+                      <form action="ajoutpanier.php" method="POST" class="d-inline-block ms-2">
                         <input type="hidden" name="action" value="supprimer">
                         <input type="hidden" name="produit_id" value="<?= $produit['produit_ID'] ?>">
                         <button type="submit" class="btn btn-danger btn-sm" id="delete">
                           <i class="bi bi-trash">supprimer</i>
                         </button>
                       </form>
-                      
+
 
                     </div>
                   </div>

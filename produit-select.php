@@ -90,10 +90,10 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
     <form method="post">
         <div class="mb-3">
             <label for="image" class="form-label">Image du produit: </label>
-            <input type="file" class="form-control" id="image" name="image" value="<?= $id ? htmlentities($photo) : "" ?>">
+            <input type="file" class="form-control" id="image" name="produit_image" value="<?= $id ? htmlentities($photo) : "" ?>">
 
             <label for="libelle" class="form-label">Nom du produit: </label>
-            <input type="text" class="form-control" id="libelle" name="libelle" value="<?= $id ? htmlentities($libelle) : "" ?>" required>
+            <input type="text" class="form-control" id="libelle" name="produit_libelle" value="<?= $id ? htmlentities($libelle) : "" ?>" required>
 
             <label for="categorie" class="form-label">Catégorie du produit: </label>
             
@@ -108,10 +108,10 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
             </select>
 
             <label for="prix" class="form-label">Prix du produit: </label>
-            <input type="text" class="form-control" id="prix" name="prix" value="<?= $id ? htmlentities($prix) : "" ?>" required>
+            <input type="text" class="form-control" id="prix" name="produit_prix" value="<?= $id ? htmlentities($prix) : "" ?>" required>
 
             <label for="description" class="form-label">Description du produit: </label>
-            <input type="text" class="form-control" id="description" name="description" value="<?= $id ? htmlentities($description) : "" ?>" required>
+            <input type="text" class="form-control" id="description" name="produit_description" value="<?= $id ? htmlentities($description) : "" ?>" required>
 
         </div>
         <!-- Si l'id du produit existe, on met une valeur cachée pour l'id dans le formulaire pour que le formulaire ne se recharge pas lors du retour à la page produits.php-->
