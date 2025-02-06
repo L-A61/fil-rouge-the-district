@@ -99,7 +99,7 @@
 
         <!-- Bouton Connexion/Déconnexion -->
         <?php if ($username): ?>
-          <a href="logout.php" class="position">Se déconnecter</a>
+          <a href="logout.php" class="position">Déconnexion</a>
         <?php else: ?>
           <a href="connexion.php" class="position">Connexion</a>
         <?php endif; ?>
@@ -129,7 +129,7 @@
         }
         ?>
         <button class="position1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
-          Mon Panier (<?php echo $nombreTotal; ?>)
+          Panier (<?php echo $nombreTotal; ?>)
         </button>
 
 
