@@ -12,7 +12,6 @@ Certaines fonctionalités ne sont pas accessibles sans compte utilisateur, pour 
 Login | testAdmin | testClient | testCommercial
 --- | --- | --- | ---
 Email | testAdmin@test.com | testClient@test.com | testCommercial@test.com
---- | --- | --- | ---
 Password | 123 | 123 | 123
 
 Chaque login correspond à un type d'utilisateur; admin, client, commercial. 
