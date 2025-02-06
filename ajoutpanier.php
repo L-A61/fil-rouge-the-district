@@ -1,18 +1,6 @@
 <?php
 // ajoutpanier.php
 require_once 'header.php';
-require_once 'functions.php';
-
-if (!isset($_SESSION['utilisateur_ID'])) {
-    header('Location: connexion.php');
-    exit();
-}
-
-if (!clientHasInfo($pdo, $_SESSION['utilisateur_ID'])) {
-    $_SESSION['error_message'] = "Veuillez compléter vos informations personnelles avant de commander.";
-    header('Location: compte.php');
-    exit();
-}
 
 
 
