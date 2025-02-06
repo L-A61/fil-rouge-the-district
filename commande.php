@@ -22,9 +22,6 @@ foreach ($panier_session as $produit) {
     ];
 }
 
-var_dump($panier);
-
-
 // On assume au départ que le client n'existe pas dans la bdd actuellement
 $clientExistant = null;
 
