@@ -6,11 +6,20 @@ if (!$isCommercialOrAdmin) {
     exit;
 }
 
+// Chiffre d'affaires mois par mois
+
+
+
 // TOP 10 des produits les plus commandés
 $produits = $pdo->query("SELECT commande_libelle, count(commande_ID) AS commande_nombre FROM commande 
 GROUP BY commande_libelle ORDER BY commande_nombre DESC LIMIT 10")->fetchAll();
 
-// TOP 10 des clients en nombre de commande
+// TOP 10 des plats les plus rémunérateurs
+$produitsRem = $pdo->query("SELECT commande_libelle, sum(commande_prix) as remuneration FROM commande 
+GROUP BY commande_libelle ORDER BY remuneration DESC LIMIT 10")->fetchAll();
+
+
+// TOP 10 des clients en nombre de commande OU chiffre d'affaire
 $clientNb = $pdo->query("SELECT c.client_ID, c.client_nom, c.client_prenom, count(co.commande_ID) as nombre_commande FROM client c
 JOIN commande co ON c.client_ID = co.client_ID
 GROUP BY c.client_ID
@@ -30,6 +39,24 @@ ORDER BY nombre_commande DESC LIMIT 10")->fetchAll();
     <tr>
       <td><?= htmlentities($produit['commande_libelle'])?></td>
       <td><?= htmlentities($produit['commande_nombre'])?></td>
+    </tr>
+    <?php endforeach?>
+  </tbody>
+</table>
+
+<h2>Top 10 produits les plus rémunérateurs</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Libelle</th>
+      <th scope="col">Rémunération (en €)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach($produitsRem as $rem):?>
+    <tr>
+      <td><?= htmlentities($rem['commande_libelle'])?></td>
+      <td><?= htmlentities($rem['remuneration'])?></td>
     </tr>
     <?php endforeach?>
   </tbody>
