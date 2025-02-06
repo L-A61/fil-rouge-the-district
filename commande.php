@@ -13,10 +13,7 @@ if (!isset($_SESSION['utilisateur_ID'])) {
 $panier_session = $_SESSION['panier'];
 $panier = [];
 
-
-// Tableau pour énumérer le nom des produits dans le panier
-
-// Ajoute le libelle de chaque produit du panier.
+// Ajoute le libelle, quantité et prix de chaque produit du panier.
 foreach ($panier_session as $produit) {
     $panier[] = [
         'libelle' => $produit['produit_libelle'],
@@ -108,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         
         // Suppression du panier et redirection vers la page d'accueil après comamande
-        // unset($_SESSION['panier']);
+        unset($_SESSION['panier']);
         echo '<meta http-equiv="refresh" content="0;url=index.php">';
         exit;
     }
