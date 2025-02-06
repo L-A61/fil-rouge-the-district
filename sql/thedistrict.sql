@@ -1,9 +1,11 @@
+DROP DATABASE IF EXISTS thedistrict;
+
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : jeu. 30 jan. 2025 à 16:00
+-- Généré le : jeu. 06 fév. 2025 à 16:54
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -69,7 +71,16 @@ CREATE TABLE IF NOT EXISTS `client` (
   `utilisateur_ID` int(11) NOT NULL,
   PRIMARY KEY (`client_ID`),
   UNIQUE KEY `utilisateur_ID` (`utilisateur_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `client`
+--
+
+INSERT INTO `client` (`client_ID`, `client_nom`, `client_prenom`, `client_tel`, `client_cp`, `client_ville`, `client_adresse1`, `client_adresse2`, `client_adresse3`, `utilisateur_ID`) VALUES
+(24, 'nom2', 'prénom2', '+331111111111', '12345', 'ville2', 'adresse', 'adresse2', 'adresse3', 2),
+(25, 'nom3', 'prénom3', '+330627023102', '12345', 'ville3', 'adresse', '', '', 3),
+(26, 'nom1', 'prénom1', '+330202020202', '12345', 'ville1', 'adresse', 'adresse2', 'adresse3', 1);
 
 -- --------------------------------------------------------
 
@@ -83,9 +94,33 @@ CREATE TABLE IF NOT EXISTS `commande` (
   `commande_date` datetime NOT NULL,
   `commande_libelle` varchar(50) NOT NULL,
   `client_ID` int(11) NOT NULL,
+  `commande_quantite` int(11) DEFAULT NULL,
+  `commande_prix` decimal(15,2) DEFAULT NULL,
   PRIMARY KEY (`commande_ID`),
   KEY `client_ID` (`client_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=165 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `commande`
+--
+
+INSERT INTO `commande` (`commande_ID`, `commande_date`, `commande_libelle`, `client_ID`, `commande_quantite`, `commande_prix`) VALUES
+(149, '2025-02-06 16:16:06', 'Velouté de Topinambours à la Truffe Noire', 25, 1, 18.00),
+(150, '2025-02-06 16:16:06', 'Foie Gras de Canard Maison, Chutney de Figues', 25, 2, 44.00),
+(151, '2025-02-06 16:16:06', 'Filet de Bœuf Rossini', 25, 1, 38.00),
+(152, '2025-02-06 16:16:06', 'Carpaccio de Saint-Jacques et Caviar', 25, 1, 22.00),
+(153, '2025-02-06 16:16:06', 'Bar Sauvage en Croûte de Sel', 25, 1, 34.00),
+(154, '2025-02-06 16:16:06', 'Homard Bleu au Beurre Blanc Safrané', 25, 1, 45.00),
+(155, '2025-02-06 16:16:59', 'Carpaccio de Saint-Jacques et Caviar', 24, 1, 22.00),
+(156, '2025-02-06 16:16:59', 'Potatoes de patate douce', 24, 1, 5.00),
+(157, '2025-02-06 16:16:59', 'Délice de pain aux figues', 24, 1, 0.00),
+(158, '2025-02-06 16:16:59', 'Bar Sauvage en Croûte de Sel', 24, 1, 34.00),
+(159, '2025-02-06 16:16:59', 'Ris de Veau Rôti aux Morilles', 24, 1, 40.00),
+(160, '2025-02-06 16:18:36', 'Velouté de Topinambours à la Truffe Noire', 26, 1, 18.00),
+(161, '2025-02-06 16:18:36', 'Ris de Veau Rôti aux Morilles', 26, 1, 40.00),
+(162, '2025-02-06 16:18:36', 'Potatoes de patate douce', 26, 1, 5.00),
+(163, '2025-02-06 16:18:36', 'Tarte Fine aux Pommes et Glace au Calvados', 26, 1, 11.00),
+(164, '2025-02-06 16:18:36', 'Chardonnay (Bourgogne)', 26, 1, 60.00);
 
 -- --------------------------------------------------------
 
