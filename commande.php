@@ -11,16 +11,21 @@ if (!isset($_SESSION['utilisateur_ID'])) {
 
 // Récupération du panier
 $panier_session = $_SESSION['panier'];
-
-// Tableau pour énumérer le nom des produits dans le panier
 $panier = [];
 
-// Ajoute le libelle de chaque produit du panier et son prix dans la variable panier.
+
+// Tableau pour énumérer le nom des produits dans le panier
+
+// Ajoute le libelle de chaque produit du panier.
 foreach ($panier_session as $produit) {
-    $panier[] = $produit['produit_libelle'];
+    $panier[] = [
+        'libelle' => $produit['produit_libelle'],
+        'quantite' => $produit['quantite'],
+        'prix' => $produit['produit_prix'] * $produit['quantite']
+    ];
 }
 
-// var_dump($panier);
+var_dump($panier);
 
 
 // On assume au départ que le client n'existe pas dans la bdd actuellement
@@ -95,15 +100,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute([$nom, $prenom, $tel, $codepostal, $ville, $adresse, $adresse2, $adresse3, $clientExistant['client_ID']]);
         }
         
-        // Pour chaque élément dans le panier, on insère une nouvelle ligne dans la bdd avec la date, le nom du produit et l'ID du client
+        // Pour chaque élément dans le panier, on insère une nouvelle ligne dans la table commande avec la date, le nom du produit, l'ID du client, la quantité et le prix.
         foreach ($panier as $produit) {
-            $stmt = $pdo->prepare("INSERT INTO commande (commande_date, commande_libelle, client_ID) VALUES (NOW(), ?, ?)");
-            $stmt->execute([$produit, $clientID]);
+            $stmt = $pdo->prepare("INSERT INTO commande (commande_date, commande_libelle, client_ID, commande_quantite, commande_prix) VALUES (NOW(), ?, ?, ?, ?)");
+            $stmt->execute([$produit['libelle'], $clientID, $produit['quantite'], $produit['prix']]);
             $commandeID = $pdo->lastInsertId();
         }
         
         // Suppression du panier et redirection vers la page d'accueil après comamande
-        unset($_SESSION['panier']);
+        // unset($_SESSION['panier']);
         echo '<meta http-equiv="refresh" content="0;url=index.php">';
         exit;
     }
