@@ -18,7 +18,12 @@
 <body>
 
   <?php
-  session_start();
+ 
+ if (session_status() === PHP_SESSION_NONE) {
+     session_start();
+ }
+ 
+ 
   // Configuration de la base de données
   $host = '127.0.0.1';
   $dbname = 'thedistrict';

@@ -2,10 +2,10 @@
 require_once 'header.php';
 require_once 'fonction.php';
 
-// Activer les erreurs PDO si yen a 
+// activer les erreurs PDO si yen a 
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-// Vérifier si l'utilisateur est connecté
+// verifier si l'utilisateur est connecté
 if (!isset($_SESSION['utilisateur_ID'])) {
     header('Location: connexion.php');
     exit();
@@ -17,18 +17,18 @@ $errorMessage = '';
 $clientInfo = null;
 $userEmail = '';
 
-// Récupérer l'email de l'utilisateur si il est connecte
+// recupere l'email de l'utililisateur pour l'afficher directement sur le form comme il es connecté
 $stmtUser = $pdo->prepare("SELECT utilisateur_email FROM utilisateur WHERE utilisateur_ID = ?");
 $stmtUser->execute([$userId]);
 $userData = $stmtUser->fetch(PDO::FETCH_ASSOC);
 $userEmail = $userData['utilisateur_email'] ?? '';
 
-// Vérifier si le client existe deja
+// verifier si le client existe deja
 $stmt = $pdo->prepare("SELECT * FROM client WHERE utilisateur_ID = ?");
 $stmt->execute([$userId]);
 $clientInfo = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Traitement du formulaire
+// traitement du formulaire
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $client_nom = $_POST['nom'] ?? '';
     $client_prenom = $_POST['prenom'] ?? '';
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         if ($clientInfo) {
-            // Mise à jour des informations existante
+            // mise a jour du client 
             $stmt = $pdo->prepare("UPDATE client SET 
                     client_nom = ?, client_prenom = ?, client_adresse1 = ?, client_tel = ?, 
                     client_ville = ?, client_cp = ?
@@ -49,15 +49,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute([$client_nom, $client_prenom, $client_adresse1, $client_tel, $client_ville, $client_cp, $userId]);
             $message = "Vos informations ont été mises à jour avec succès.";
         } else {
-            // Création d'un nouveau client
-            // Création d'un nouveau client
+            // creation d'un nouveau client
             $stmt = $pdo->prepare("INSERT INTO client (utilisateur_ID, client_nom, client_prenom, client_adresse1, client_tel, client_ville, client_cp) 
             VALUES (?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([$userId, $client_nom, $client_prenom, $client_adresse1, $client_tel, $client_ville, $client_cp]);
             $message = "Vos informations ont été enregistrées avec succès.";
         }
 
-        // Rafraîchir les informations client
+        // raffraichir apres la requete
         $stmt = $pdo->prepare("SELECT * FROM client WHERE utilisateur_ID = ?");
         $stmt->execute([$userId]);
         $clientInfo = $stmt->fetch(PDO::FETCH_ASSOC);

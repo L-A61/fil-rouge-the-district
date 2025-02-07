@@ -8,7 +8,7 @@ function ajouterAuPanier($produit) {
         $_SESSION['panier'] = [];
     }
     
-    // Check if product already exists in cart
+    // vérifier si le produit exist dans le panier
     $found = false;
     foreach ($_SESSION['panier'] as &$item) {
         if ($item['produit_ID'] == $produit['produit_ID']) {
@@ -18,7 +18,7 @@ function ajouterAuPanier($produit) {
         }
     }
     
-    // If product not found, add it with quantity 1
+    // Si le produit n'est pas trouvé ajouter 1
     if (!$found) {
         $_SESSION['panier'][] = [
             'produit_ID' => $produit['produit_ID'],
