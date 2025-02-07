@@ -118,7 +118,10 @@
     </button>
 <?php endif; ?>
 
-
+        <!-- Bouton Tableau pour commmercial et admin -->
+        <?php if ($isCommercialOrAdmin): ?>
+          <a href="tableau.php" class="position">Tableau</a>
+        <?php endif; ?>
 
 
 

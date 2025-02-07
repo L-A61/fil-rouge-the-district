@@ -1,3 +1,5 @@
+DROP DATABASE IF EXISTS thedistrict;
+
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
@@ -61,15 +63,19 @@ CREATE TABLE `client` (
   `client_adresse1` varchar(50) NOT NULL,
   `client_adresse2` varchar(50) DEFAULT NULL,
   `client_adresse3` varchar(50) DEFAULT NULL,
-  `utilisateur_ID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `utilisateur_ID` int(11) NOT NULL,
+  PRIMARY KEY (`client_ID`),
+  UNIQUE KEY `utilisateur_ID` (`utilisateur_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `client`
 --
 
 INSERT INTO `client` (`client_ID`, `client_nom`, `client_prenom`, `client_tel`, `client_cp`, `client_ville`, `client_adresse1`, `client_adresse2`, `client_adresse3`, `utilisateur_ID`) VALUES
-(25, 'test', 'totest', '0768471765', '27000', 'evreux', '12 rue des bigboss', NULL, NULL, 2);
+(24, 'nom2', 'prénom2', '+331111111111', '12345', 'ville2', 'adresse', 'adresse2', 'adresse3', 2),
+(25, 'nom3', 'prénom3', '+330627023102', '12345', 'ville3', 'adresse', '', '', 3),
+(26, 'nom1', 'prénom1', '+330202020202', '12345', 'ville1', 'adresse', 'adresse2', 'adresse3', 1);
 
 -- --------------------------------------------------------
 
