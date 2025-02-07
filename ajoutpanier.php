@@ -1,26 +1,15 @@
 <?php
 // ajoutpanier.php
 require_once 'header.php';
-require_once 'functions.php';
-
-if (!isset($_SESSION['utilisateur_ID'])) {
-    header('Location: connexion.php');
-    exit();
-}
-
-if (!clientHasInfo($pdo, $_SESSION['utilisateur_ID'])) {
-    $_SESSION['error_message'] = "Veuillez compléter vos informations personnelles avant de commander.";
-    header('Location: compte.php');
-    exit();
-}
 
 
 
-function ajouterAuPanier($produit) {
+function ajouterAuPanier($produit)
+{
     if (!isset($_SESSION['panier'])) {
         $_SESSION['panier'] = [];
     }
-    
+
     // Check if product already exists in cart
     $found = false;
     foreach ($_SESSION['panier'] as &$item) {
@@ -30,7 +19,7 @@ function ajouterAuPanier($produit) {
             break;
         }
     }
-    
+
     // If product not found, add it with quantity 1
     if (!$found) {
         $_SESSION['panier'][] = [
@@ -47,8 +36,8 @@ function ajouterAuPanier($produit) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
     $produit_id = $_POST['produit_id'] ?? '';
-    
-    switch($action) {
+
+    switch ($action) {
         case 'ajouter':
             $stmt = $pdo->prepare("SELECT * FROM produit WHERE produit_ID = ?");
             $stmt->execute([$produit_id]);
@@ -57,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ajouterAuPanier($produit);
             }
             break;
-            
+
         case 'incrementer':
             foreach ($_SESSION['panier'] as &$item) {
                 if ($item['produit_ID'] == $produit_id) {
@@ -66,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
             break;
-            
+
         case 'decrementer':
             foreach ($_SESSION['panier'] as $key => &$item) {
                 if ($item['produit_ID'] == $produit_id) {
@@ -77,9 +66,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     break;
                 }
             }
-            $_SESSION['panier'] = array_values($_SESSION['panier']); 
+            $_SESSION['panier'] = array_values($_SESSION['panier']);
             break;
-            
+
         case 'supprimer':
             foreach ($_SESSION['panier'] as $key => $item) {
                 if ($item['produit_ID'] == $produit_id) {
@@ -87,12 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     break;
                 }
             }
-            $_SESSION['panier'] = array_values($_SESSION['panier']); 
+            $_SESSION['panier'] = array_values($_SESSION['panier']);
             break;
     }
 }
-
-
-echo '<meta http-equiv="refresh" content="0;url=produits.php">';
-            exit;
-?>
