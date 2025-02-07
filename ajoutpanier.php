@@ -3,7 +3,6 @@
 require_once 'header.php';
 
 
-
 function ajouterAuPanier($produit) {
     if (!isset($_SESSION['panier'])) {
         $_SESSION['panier'] = [];
