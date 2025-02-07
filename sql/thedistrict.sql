@@ -5,7 +5,7 @@ DROP DATABASE IF EXISTS thedistrict;
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : ven. 07 fév. 2025 à 11:18
+-- Généré le : jeu. 06 fév. 2025 à 16:54
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -22,6 +22,8 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `thedistrict`
 --
+CREATE DATABASE IF NOT EXISTS `thedistrict` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `thedistrict`;
 
 -- --------------------------------------------------------
 
@@ -29,11 +31,13 @@ SET time_zone = "+00:00";
 -- Structure de la table `categorie`
 --
 
-CREATE TABLE `categorie` (
-  `categorie_ID` int(11) NOT NULL,
+DROP TABLE IF EXISTS `categorie`;
+CREATE TABLE IF NOT EXISTS `categorie` (
+  `categorie_ID` int(11) NOT NULL AUTO_INCREMENT,
   `categorie_libelle` varchar(50) NOT NULL,
-  `categorie_image` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `categorie_image` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`categorie_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `categorie`
@@ -53,8 +57,9 @@ INSERT INTO `categorie` (`categorie_ID`, `categorie_libelle`, `categorie_image`)
 -- Structure de la table `client`
 --
 
-CREATE TABLE `client` (
-  `client_ID` int(11) NOT NULL,
+DROP TABLE IF EXISTS `client`;
+CREATE TABLE IF NOT EXISTS `client` (
+  `client_ID` int(11) NOT NULL AUTO_INCREMENT,
   `client_nom` varchar(50) NOT NULL,
   `client_prenom` varchar(50) NOT NULL,
   `client_tel` varchar(13) NOT NULL,
@@ -83,12 +88,39 @@ INSERT INTO `client` (`client_ID`, `client_nom`, `client_prenom`, `client_tel`, 
 -- Structure de la table `commande`
 --
 
-CREATE TABLE `commande` (
-  `commande_ID` int(11) NOT NULL,
+DROP TABLE IF EXISTS `commande`;
+CREATE TABLE IF NOT EXISTS `commande` (
+  `commande_ID` int(11) NOT NULL AUTO_INCREMENT,
   `commande_date` datetime NOT NULL,
   `commande_libelle` varchar(50) NOT NULL,
-  `client_ID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `client_ID` int(11) NOT NULL,
+  `commande_quantite` int(11) DEFAULT NULL,
+  `commande_prix` decimal(15,2) DEFAULT NULL,
+  PRIMARY KEY (`commande_ID`),
+  KEY `client_ID` (`client_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=165 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `commande`
+--
+
+INSERT INTO `commande` (`commande_ID`, `commande_date`, `commande_libelle`, `client_ID`, `commande_quantite`, `commande_prix`) VALUES
+(149, '2025-02-06 16:16:06', 'Velouté de Topinambours à la Truffe Noire', 25, 1, 18.00),
+(150, '2025-02-06 16:16:06', 'Foie Gras de Canard Maison, Chutney de Figues', 25, 2, 44.00),
+(151, '2025-02-06 16:16:06', 'Filet de Bœuf Rossini', 25, 1, 38.00),
+(152, '2025-02-06 16:16:06', 'Carpaccio de Saint-Jacques et Caviar', 25, 1, 22.00),
+(153, '2025-02-06 16:16:06', 'Bar Sauvage en Croûte de Sel', 25, 1, 34.00),
+(154, '2025-02-06 16:16:06', 'Homard Bleu au Beurre Blanc Safrané', 25, 1, 45.00),
+(155, '2025-02-06 16:16:59', 'Carpaccio de Saint-Jacques et Caviar', 24, 1, 22.00),
+(156, '2025-02-06 16:16:59', 'Potatoes de patate douce', 24, 1, 5.00),
+(157, '2025-02-06 16:16:59', 'Délice de pain aux figues', 24, 1, 0.00),
+(158, '2025-02-06 16:16:59', 'Bar Sauvage en Croûte de Sel', 24, 1, 34.00),
+(159, '2025-02-06 16:16:59', 'Ris de Veau Rôti aux Morilles', 24, 1, 40.00),
+(160, '2025-02-06 16:18:36', 'Velouté de Topinambours à la Truffe Noire', 26, 1, 18.00),
+(161, '2025-02-06 16:18:36', 'Ris de Veau Rôti aux Morilles', 26, 1, 40.00),
+(162, '2025-02-06 16:18:36', 'Potatoes de patate douce', 26, 1, 5.00),
+(163, '2025-02-06 16:18:36', 'Tarte Fine aux Pommes et Glace au Calvados', 26, 1, 11.00),
+(164, '2025-02-06 16:18:36', 'Chardonnay (Bourgogne)', 26, 1, 60.00);
 
 -- --------------------------------------------------------
 
@@ -109,10 +141,13 @@ CREATE TABLE `favoris` (
 -- Structure de la table `peut_contenir`
 --
 
-CREATE TABLE `peut_contenir` (
+DROP TABLE IF EXISTS `peut_contenir`;
+CREATE TABLE IF NOT EXISTS `peut_contenir` (
   `produit_ID` int(11) NOT NULL,
   `commande_ID` int(11) NOT NULL,
-  `quantite` int(11) NOT NULL
+  `quantite` int(11) NOT NULL,
+  PRIMARY KEY (`produit_ID`,`commande_ID`),
+  KEY `commande_ID` (`commande_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -121,14 +156,17 @@ CREATE TABLE `peut_contenir` (
 -- Structure de la table `produit`
 --
 
-CREATE TABLE `produit` (
-  `produit_ID` int(11) NOT NULL,
+DROP TABLE IF EXISTS `produit`;
+CREATE TABLE IF NOT EXISTS `produit` (
+  `produit_ID` int(11) NOT NULL AUTO_INCREMENT,
   `produit_libelle` varchar(50) NOT NULL,
   `produit_prix` decimal(19,2) NOT NULL,
   `produit_image` varchar(50) DEFAULT NULL,
   `produit_description` varchar(500) NOT NULL,
-  `categorie_ID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `categorie_ID` int(11) NOT NULL,
+  PRIMARY KEY (`produit_ID`),
+  KEY `categorie_ID` (`categorie_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `produit`
@@ -181,10 +219,12 @@ INSERT INTO `produit` (`produit_ID`, `produit_libelle`, `produit_prix`, `produit
 -- Structure de la table `type`
 --
 
-CREATE TABLE `type` (
-  `type_ID` int(11) NOT NULL,
-  `type_libelle` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+DROP TABLE IF EXISTS `type`;
+CREATE TABLE IF NOT EXISTS `type` (
+  `type_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `type_libelle` varchar(50) NOT NULL,
+  PRIMARY KEY (`type_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `type`
@@ -201,13 +241,16 @@ INSERT INTO `type` (`type_ID`, `type_libelle`) VALUES
 -- Structure de la table `utilisateur`
 --
 
-CREATE TABLE `utilisateur` (
-  `utilisateur_ID` int(11) NOT NULL,
+DROP TABLE IF EXISTS `utilisateur`;
+CREATE TABLE IF NOT EXISTS `utilisateur` (
+  `utilisateur_ID` int(11) NOT NULL AUTO_INCREMENT,
   `utilisateur_pseudo` varchar(50) NOT NULL,
   `utilisateur_email` varchar(50) DEFAULT NULL,
   `utilisateur_password` varchar(255) DEFAULT NULL,
-  `type_ID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `type_ID` int(11) NOT NULL,
+  PRIMARY KEY (`utilisateur_ID`),
+  KEY `type_ID` (`type_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `utilisateur`
@@ -216,113 +259,7 @@ CREATE TABLE `utilisateur` (
 INSERT INTO `utilisateur` (`utilisateur_ID`, `utilisateur_pseudo`, `utilisateur_email`, `utilisateur_password`, `type_ID`) VALUES
 (1, 'testAdmin', 'testAdmin@test.com', '$2y$10$vebp.l.r47lvCQbxgK/jx.gR1IBhj5yphYNQ43I459NmOEQZIBtyO', 1),
 (2, 'testClient', 'testClient@test.com', '$2y$10$GgX1S.nFu5p8rEEIhHBtRu27Cc0Sl4Dwkk/m/6qYyiKrzyMLHdJI2', 2),
-(3, 'testCommercial', 'testCommercial@test.com', '$2y$10$kifzwjRDY1N3savszLOkNuVIVDUXTbsbz7WQzV83sLfppyCbyflta', 3),
-(16, 'test', 'test@test.com', '$2y$10$VlhlfOHYagkPvHEzMqPul.CwHWZyiNSSgM6AMMbD..iODG4upZvRa', 2);
-
---
--- Index pour les tables déchargées
---
-
---
--- Index pour la table `categorie`
---
-ALTER TABLE `categorie`
-  ADD PRIMARY KEY (`categorie_ID`);
-
---
--- Index pour la table `client`
---
-ALTER TABLE `client`
-  ADD PRIMARY KEY (`client_ID`),
-  ADD UNIQUE KEY `utilisateur_ID` (`utilisateur_ID`);
-
---
--- Index pour la table `commande`
---
-ALTER TABLE `commande`
-  ADD PRIMARY KEY (`commande_ID`),
-  ADD KEY `client_ID` (`client_ID`);
-
---
--- Index pour la table `favoris`
---
-ALTER TABLE `favoris`
-  ADD PRIMARY KEY (`favori_ID`),
-  ADD KEY `produit_ID` (`produit_ID`),
-  ADD KEY `utilisateur_ID` (`utilisateur_ID`);
-
---
--- Index pour la table `peut_contenir`
---
-ALTER TABLE `peut_contenir`
-  ADD PRIMARY KEY (`produit_ID`,`commande_ID`),
-  ADD KEY `commande_ID` (`commande_ID`);
-
---
--- Index pour la table `produit`
---
-ALTER TABLE `produit`
-  ADD PRIMARY KEY (`produit_ID`),
-  ADD KEY `categorie_ID` (`categorie_ID`);
-
---
--- Index pour la table `type`
---
-ALTER TABLE `type`
-  ADD PRIMARY KEY (`type_ID`);
-
---
--- Index pour la table `utilisateur`
---
-ALTER TABLE `utilisateur`
-  ADD PRIMARY KEY (`utilisateur_ID`),
-  ADD KEY `type_ID` (`type_ID`);
-
---
--- AUTO_INCREMENT pour les tables déchargées
---
-
---
--- AUTO_INCREMENT pour la table `categorie`
---
-ALTER TABLE `categorie`
-  MODIFY `categorie_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT pour la table `client`
---
-ALTER TABLE `client`
-  MODIFY `client_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
-
---
--- AUTO_INCREMENT pour la table `commande`
---
-ALTER TABLE `commande`
-  MODIFY `commande_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
-
---
--- AUTO_INCREMENT pour la table `favoris`
---
-ALTER TABLE `favoris`
-  MODIFY `favori_ID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pour la table `produit`
---
-ALTER TABLE `produit`
-  MODIFY `produit_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
-
---
--- AUTO_INCREMENT pour la table `type`
---
-ALTER TABLE `type`
-  MODIFY `type_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT pour la table `utilisateur`
---
-ALTER TABLE `utilisateur`
-  MODIFY `utilisateur_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+(3, 'testCommercial', 'testCommercial@test.com', '$2y$10$kifzwjRDY1N3savszLOkNuVIVDUXTbsbz7WQzV83sLfppyCbyflta', 3);
 
 --
 -- Contraintes pour les tables déchargées
@@ -339,13 +276,6 @@ ALTER TABLE `client`
 --
 ALTER TABLE `commande`
   ADD CONSTRAINT `commande_ibfk_1` FOREIGN KEY (`client_ID`) REFERENCES `client` (`client_ID`);
-
---
--- Contraintes pour la table `favoris`
---
-ALTER TABLE `favoris`
-  ADD CONSTRAINT `favoris_ibfk_1` FOREIGN KEY (`produit_ID`) REFERENCES `produit` (`produit_ID`),
-  ADD CONSTRAINT `favoris_ibfk_2` FOREIGN KEY (`utilisateur_ID`) REFERENCES `utilisateur` (`utilisateur_ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
