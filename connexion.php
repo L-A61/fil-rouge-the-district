@@ -37,16 +37,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute();
         $type = $stmt->fetch(PDO::FETCH_ASSOC);
 
-         // Stocker les informations de type dans la session
+        // Stocker les informations de type dans la session
         $_SESSION['type_libelle'] = $type['type_libelle'];
-        echo "<br>Type d'utilisateur : ". $_SESSION['type_libelle'];
+        echo "<br>Type d'utilisateur : " . $_SESSION['type_libelle'];
         $_SESSION['logged_in'] = true;
-        header('Location: index.php'); // Redirection vers la page d'acceuil
+        echo '<meta http-equiv="refresh" content="0;url=index.php">';
         exit();
     } else {
         //Identifiants incorrects, affichage d'un message d'erreur
         $error_message = "Email ou mot de passe incorrect";
-    } 
+    }
 }
 ?>
 
