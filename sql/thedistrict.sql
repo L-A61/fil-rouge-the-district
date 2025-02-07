@@ -20,6 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `thedistrict`
 --
+DROP DATABASE thedistrict;
 CREATE DATABASE IF NOT EXISTS `thedistrict` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `thedistrict`;
 
@@ -55,7 +56,7 @@ INSERT INTO `categorie` (`categorie_ID`, `categorie_libelle`, `categorie_image`)
 -- Structure de la table `client`
 --
 
-DROP TABLE IF EXISTS `client`;
+
 CREATE TABLE IF NOT EXISTS `client` (
   `client_ID` int(11) NOT NULL AUTO_INCREMENT,
   `client_nom` varchar(50) NOT NULL,
