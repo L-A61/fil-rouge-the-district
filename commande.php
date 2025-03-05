@@ -60,14 +60,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //Ajout de message d'erreur dans le tableau erreurs si les données correspondent pas.
     if (!preg_match('/[A-zÀ-ú0-9]{3,}/', $nom)) {
         $erreurs[] = "Le nom doit au moins faire 3 caractères";
-    } 
+    }
     if (!preg_match('/[A-zÀ-ú0-9]{3,}/', $prenom)) {
         $erreurs[] = "Le prénom doit au moins faire 3 caractères";
-    } 
+    }
     if (!preg_match('/^\+33\d{10}$/', $tel)) {
         $erreurs[] = "Le téléphone doit commencer par +33 et contenir 10 chiffres";
-    } 
-    if (!preg_match('/^\d{5}$/',$codepostal)) {
+    }
+    if (!preg_match('/^\d{5}$/', $codepostal)) {
         $erreurs[] = "Le code postal doit contenir exactement 5 chiffres";
     }
 
@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([$nom, $prenom, $tel, $codepostal, $ville, $adresse, $adresse2, $adresse3, $utilisateur]);
             $clientID = $pdo->lastInsertId();
-        // Si le client existe, on met à jours les données dans la bdd selon l'ID du client
+            // Si le client existe, on met à jours les données dans la bdd selon l'ID du client
         } else {
             $stmt = $pdo->prepare("UPDATE client SET 
             client_nom = ?, 
@@ -93,14 +93,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             WHERE client_ID = ?");
             $stmt->execute([$nom, $prenom, $tel, $codepostal, $ville, $adresse, $adresse2, $adresse3, $clientExistant['client_ID']]);
         }
-        
+
         // Pour chaque élément dans le panier, on insère une nouvelle ligne dans la table commande avec la date, le nom du produit, l'ID du client, la quantité et le prix.
         foreach ($panier as $produit) {
             $stmt = $pdo->prepare("INSERT INTO commande (commande_date, commande_libelle, client_ID, commande_quantite, commande_prix) VALUES (NOW(), ?, ?, ?, ?)");
             $stmt->execute([$produit['libelle'], $clientID, $produit['quantite'], $produit['prix']]);
             $commandeID = $pdo->lastInsertId();
         }
-        
+
         // Suppression du panier et redirection vers la page d'accueil après comamande
         unset($_SESSION['panier']);
         echo '<meta http-equiv="refresh" content="0;url=index.php">';
@@ -117,21 +117,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- Aperçu commande -->
         <ul>
-        <?php foreach($panier_session as $panier):?>
-            <li><?= htmlentities($panier['quantite'])?> <?= htmlentities($panier['produit_libelle'])?>: <?= number_format(htmlentities($panier['produit_prix']) * htmlentities($panier['quantite']), 2)?>€</li>
-        <?php endforeach;?>
+            <?php foreach ($panier_session as $panier): ?>
+                <li><?= htmlentities($panier['quantite']) ?> <?= htmlentities($panier['produit_libelle']) ?>: <?= number_format(htmlentities($panier['produit_prix']) * htmlentities($panier['quantite']), 2) ?>€</li>
+            <?php endforeach; ?>
         </ul>
 
         <!-- Si le tableau erreur n'est pas vide, on liste les messages d'erreurs -->
-        <?php if (!empty($erreurs)):?>
+        <?php if (!empty($erreurs)): ?>
             <div class="alert alert-warning">
                 <ul>
-                    <?php foreach ($erreurs as $erreur):?>
-                        <li><?= htmlentities($erreur)?></li>
-                    <?php endforeach?>
+                    <?php foreach ($erreurs as $erreur): ?>
+                        <li><?= htmlentities($erreur) ?></li>
+                    <?php endforeach ?>
                 </ul>
             </div>
-        <?php endif;?>
+        <?php endif; ?>
 
         <!-- Formulaire commande à relier avec la table client du bdd -->
         <!-- Chaque input regarde si le client existe, récupèrant les informations du client dans la bdd comme valeur -->
@@ -188,14 +188,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input id="ville" type="text" name="ville" value="<?= $clientExistant ? htmlentities($clientExistant["client_ville"]) : "" ?>" required>
 
     </section>
-    
-    <p>TOTAL: <?= number_format(htmlentities($total), 2)?>€</p>
+
+    <p>TOTAL: <?= number_format(htmlentities($total), 2) ?>€</p>
 
     <button type="submit">Envoyer</button>
 
     </form>
 
-    
+
 </main>
 
 <?php

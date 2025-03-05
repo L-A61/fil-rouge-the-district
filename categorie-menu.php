@@ -51,16 +51,16 @@ if (isset($_SESSION['type_libelle'])) {
 
 // Gestion de l'upload de fichier
 if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-   $uploads_dir = 'assets/img/';
-   $tmp_name = $_FILES['photo']['tmp_name'];
-   $filename = uniqid() . '_' . basename($_FILES['photo']['name']);
-   $photo_path = $uploads_dir . $filename;
+    $uploads_dir = 'assets/img/';
+    $tmp_name = $_FILES['photo']['tmp_name'];
+    $filename = uniqid() . '_' . basename($_FILES['photo']['name']);
+    $photo_path = $uploads_dir . $filename;
 
-   if (move_uploaded_file($tmp_name, $photo_path)) {
-       $photo = $filename;
-   } else {
-       $message = "Erreur lors de l'upload de la photo.";
-   }
+    if (move_uploaded_file($tmp_name, $photo_path)) {
+        $photo = $filename;
+    } else {
+        $message = "Erreur lors de l'upload de la photo.";
+    }
 }
 ?>
 
@@ -68,7 +68,7 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
 
 <div class="container my-5">
     <!-- Liste des catégories -->
-    <h1 class="mb-4">Tous nos catégories</h1>
+    <h1 class="mb-4">Nos catégories proposées</h1>
 
     <!-- Formulaire de recherche catégorie -->
     <form method="get" action="categorie-menu.php" class="mb-4">
@@ -81,10 +81,10 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
 
 
     <!-- Visible seulement si utilisateur commercial ou admin -->
-    <?php if($isCommercialOrAdmin):?>
+    <?php if ($isCommercialOrAdmin): ?>
         <a href="categorie-select.php" class="btn btn-dark">Ajouter une catégorie</a>
-    <?php endif;?>
-   
+    <?php endif; ?>
+
 
     <!-- Liste des catégories -->
     <div class="row">
@@ -93,16 +93,16 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
                 <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-body">
-                         <img src="./assets/img/<?= htmlentities($category['categorie_image']) ?>" class="card-img" alt="">
+                            <img src="./assets/img/<?= htmlentities($category['categorie_image']) ?>" class="card-img" alt="">
                             <h3 class="card-title"><?= htmlentities($category['categorie_libelle']) ?></h3>
                             <a class="btn btn-info" href="produits.php?category=<?= htmlentities($category['categorie_libelle']) ?>">Afficher Les Produits</a>
-                            
+
                             <!-- Accès au bouton modifier et supprimer si l'utilisateur est admin ou commercial -->
-                             <?php if($isCommercialOrAdmin):?>
-                            <a class="btn btn-success" href="categorie-select.php?modify=<?= htmlentities($category['categorie_ID'])?>">Modifier</a>
-                            <a class="btn btn-danger" href="categorie-menu.php?delete=<?= htmlentities($category['categorie_ID'])?>"
-                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette catégorie ?')">Supprimer</a>
-                            <?php endif;?>
+                            <?php if ($isCommercialOrAdmin): ?>
+                                <a class="btn btn-success" href="categorie-select.php?modify=<?= htmlentities($category['categorie_ID']) ?>">Modifier</a>
+                                <a class="btn btn-danger" href="categorie-menu.php?delete=<?= htmlentities($category['categorie_ID']) ?>"
+                                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette catégorie ?')">Supprimer</a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>

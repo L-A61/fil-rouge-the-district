@@ -1,32 +1,61 @@
 <?php
 include 'header.php';
 ?>
-<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
   <div class="carousel-indicators">
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+
   </div>
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src="./assets/img/carroussel1.jpeg" class="d-block w-100" alt="..." style="margin: 5% 4% 5% 4%; height : 800px;">
+      <img src="./assets/img/carousel1.PNG" class="d-block w-100 img-fluid" alt="..." style="height: 600px;">
       <div class="carousel-caption d-none d-md-block">
-        <h5>Le Goût de l'exellence</h5>
-        <p>Découvrez nos plats et menus pour une expérience gastronomique inoubliable.</p>
+        <h5>Votre expert en technologie, à votre service</h5>
+        <p>Le meilleur de l'informatique et des téléphones, sous un même toit</p>
       </div>
     </div>
     <div class="carousel-item">
-      <img src="./assets/img/carroussel2.jpeg" class="d-block w-100" alt="..." style="margin: 5% 4% 5% 4%; height : 800px;">
+      <img src="./assets/img/carousel2.JPG" class="d-block w-100 img-fluid" alt="..." style="height: 600px;">
       <div class="carousel-caption d-none d-md-block">
-        <h5>Une Evasion de saveur</h5>
-        <p>Découvrez nos plats et menus pour une expérience gastronomique inoubliable.</p>
+        <h5>Votre expert en technologie, à votre service</h5>
+        <p>Réparations et ventes informatiques, votre satisfaction notre mission.</p>
       </div>
     </div>
     <div class="carousel-item">
-      <img src="./assets/img/cheese-7952772.jpg" class="d-block w-100" alt="..." style="margin: 5% 4% 5% 4%; height : 800px;">
+      <img src="./assets/img/carousel3.jpg" class="d-block w-100 img-fluid" alt="..." style="height: 600px;">
       <div class="carousel-caption d-none d-md-block">
-        <h5>Des produits d'Exeption</h5>
-        <p>Découvrez nos plats et menus pour une expérience gastronomique inoubliable.</p>
+        <h5>La technologie à portée de main</h5>
+        <p>Réparations et ventes informatiques, votre satisfaction notre mission.</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="./assets/img/carousel4.jpg" class="d-block w-100 img-fluid" alt="..." style="height: 600px;">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Votre expert en technologie, à votre service</h5>
+        <p>Le meilleur de l'informatique et des téléphones, sous un même toit.</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="./assets/img/carousel6.jpg" class="d-block w-100 img-fluid" alt="..." style="height: 600px;">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Votre expert en technologie, à votre service</h5>
+        <p>Le meilleur de l'informatique et des téléphones, sous un même toit.</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="./assets/img/carousel7.jpg" class="d-block w-100 img-fluid" alt="..." style="height: 600px;">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Votre expert en technologie, à votre service</h5>
+        <p>Le meilleur de l'informatique et des téléphones, sous un même toit.</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="./assets/img/carousel8.jpg" class="d-block w-100 img-fluid" alt="..." style="height: 600px;">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Votre expert en technologie, à votre service</h5>
+        <p>Le meilleur de l'informatique et des téléphones, sous un même toit.</p>
       </div>
     </div>
   </div>

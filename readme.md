@@ -4,7 +4,7 @@ Un site e-commerce qui permet de commander des produits (entrées, plats, plats 
 
 ## Installation
 
-Créer la base de donnée thedistrict via le fichier thedistrict.sql présent dans le dossier sql.
+Créer la base de donnée yeyainfo via le fichier yeyainfo.sql présent dans le dossier sql.
 
 ## Utilisation
 Certaines fonctionalités ne sont pas accessibles sans compte utilisateur, pour y remedier, vous pouvez vous inscrire en tant que client. Ou directement via l'un de ces comptes disponible dans la base de donnée:

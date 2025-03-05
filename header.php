@@ -18,15 +18,15 @@
 <body>
 
   <?php
- 
- if (session_status() === PHP_SESSION_NONE) {
-     session_start();
- }
- 
- 
+
+  if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+  }
+
+
   // Configuration de la base de données
   $host = '127.0.0.1';
-  $dbname = 'thedistrict';
+  $dbname = 'yeyainfo';
   $username = 'root';
   $password = '';
 
@@ -66,16 +66,16 @@
   if (isset($_SESSION['type_libelle'])) {
     switch (strtolower($_SESSION['type_libelle'])) {
       case 'commercial':
-        echo 'commercial'; // Grey pour Commercial 
+        echo 'commercial';
         echo '<!-- Cas Commercial -->';
         break;
       case 'admin':
-        echo 'admin'; // Pink pour Admin
+        echo 'admin';
         echo '<!-- Cas Admin -->';
 
         break;
       default:
-        echo 'defaut'; // Couleur par défaut
+        echo 'defaut';
         break;
     }
   } else {
@@ -89,7 +89,7 @@
   <header>
     <nav class="navOne">
       <a href="index.php">
-        <img src="../assets/logo.png" alt="logo" class="taille">
+        <img src="../assets/logo.png" alt="logo" class="img-fluid" style="width: 159px;">
       </a>
       <div class="navTwo">
         <button class="position">
@@ -113,10 +113,10 @@
 
         <!-- Bouton Mon Compte qui apparait si connécté -->
         <?php if ($username): ?>
-    <button class="position">
-        <a href="compte.php">Mon Compte</a>
-    </button>
-<?php endif; ?>
+          <button class="position">
+            <a href="compte.php">Mon Compte</a>
+          </button>
+        <?php endif; ?>
 
         <!-- Bouton Tableau pour commmercial et admin -->
         <?php if ($isCommercialOrAdmin): ?>

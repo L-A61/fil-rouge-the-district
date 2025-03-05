@@ -9,7 +9,7 @@ if (!isset($_SESSION['type_utilisateur']) || $_SESSION['type_utilisateur'] !== '
 
 // Configuration de la base de données
 $host = '127.0.0.1';
-$dbname = 'thedistrict';
+$dbname = 'yeyainfo';
 $username = 'root';
 $password = '';
 
